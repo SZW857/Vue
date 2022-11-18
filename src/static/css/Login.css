@@ -1,0 +1,28 @@
+.login_body{
+    width: 1490px;
+    height: 730px;
+    background-image: url("@/static/picture/02.png");
+
+}
+
+.main_form{
+    position: absolute;
+    width: 600px;
+    margin-left: 650px;
+    margin-top: 180px;
+    background-color: wheat;
+    height: 310px;
+
+}
+.demo-ruleForm{
+    width: 600px;
+}
+#login_content{
+    margin-top: 20px;
+}
+
+#btn{
+    position: absolute;
+    padding-left: 100px;
+    top: 205px;
+}

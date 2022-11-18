@@ -1,0 +1,20 @@
+#register_container {
+    background-image: url("@/static/picture/register.png");
+}
+#register_body{
+    background: #ffffff;
+    width: 825px;
+    margin-left: 320px;
+    padding-top: 40px;
+}
+.el-input{
+    width: 600px;
+
+}
+.btns {
+
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 300px;
+
+}
