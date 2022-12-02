@@ -2,7 +2,8 @@
 <div>
   <el-backtop :bottom="60" :right="10" ><el-icon><Top/></el-icon></el-backtop>
  <CarouselChart/>
- <BoxContainer/>
+ <CommunityNews/>
+ <CommunityAnnouncements/>
 </div>
 </template>
 
@@ -14,12 +15,14 @@
 }
 </style>
 <script>
-import CarouselChart from '@/components/Index/CarouselChart.vue'
-import BoxContainer from '@/components/Index/BoxContainer.vue'
+import CarouselChart from '@/components/Index/CarouselChart.vue' //轮播图
+import CommunityNews from '@/components/Index/CommunityNews.vue' //社区要闻
+import CommunityAnnouncements from '@/components/Index/CommunityAnnouncements.vue'
 export default {
   components: {
     CarouselChart,
-    BoxContainer,
+    CommunityNews,
+    CommunityAnnouncements,
   }
 }
 </script>

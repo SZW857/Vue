@@ -18,7 +18,7 @@
 }
 
 .el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+  background-color: #ffffff;
 }
 
 .el-carousel__item:nth-child(2n + 1) {
@@ -31,11 +31,10 @@
       return{
         Carousel1:[
           {url:require("@/static/picture/01.jpeg")},
-          {url:require("@/static/picture/3.png")},
-          {url:require("@/static/picture/03.png")},
+          {url:require("@/static/picture/02.jpeg")},
+          {url:require("@/static/picture/03.jpeg")},
           {url:require("@/static/picture/04.jpg")},
           {url:require("@/static/picture/05.jpg")},
-          {url:require("@/static/picture/1.jpg")},
         ]
       }
     }

@@ -1,18 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../NavigationBar/HomeView.vue'
-
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
-    children:[
-      // {
-      //   path:'/',
-      //   name:'',
-      //   component: ()=>import(/* webpackChunkName: "about"  */'@/')
-      // }
-    ]
   },
   {
     path: '/login',
@@ -30,7 +22,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/UsageGuide.vue'),
   },
   {
-
+    path: '/forgetPwd',
+    name:'forgetPwd',
+    component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/ForgotPwdTemplate.vue'),
+    children: [
+      {
+        path:'/ForgotPwd3',
+        name:'ForgotPwd3',
+        component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/Finish.vue'),
+      },
+    ]
   },
   {
     path: "/video",

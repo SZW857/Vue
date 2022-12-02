@@ -6,16 +6,16 @@
   <el-form
       :model="ruleForm"
       :rules="rules"
+      label-position="top"
       status-icon
       ref="ruleForm"
       class="demo-ruleForm"
       style="text-align: left;
              margin-left: 80px"
   >
-
-    <p><em style="color: #d23243">*</em>用户名:</p>
-    <el-form-item label="" prop="name">
+    <el-form-item label="用户名" prop="name">
       <el-input
+        :maxlength="10"
         type="text"
         autocomplete="off"
         v-model="ruleForm.name"
@@ -24,8 +24,7 @@
     ></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em>密码:</p>
-    <el-form-item label="" prop="pass">
+    <el-form-item label="密码" prop="pass">
       <el-input
         type="password"
         autocomplete="off"
@@ -35,8 +34,7 @@
     ></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em>确认密码:</p>
-    <el-form-item label="" prop="checkPass">
+    <el-form-item label="确认密码" prop="checkPass">
       <el-input
         type="password"
         autocomplete="off"
@@ -46,20 +44,24 @@
     ></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em>手机号码:</p>
-    <el-form-item label="" prop="checkPass">
+    <el-form-item label="手机号码" prop="telephoneNumber">
       <el-input
-          type="password"
+          :maxlength="11"
+          type="text"
           autocomplete="off"
-          v-model="ruleForm.checkPass"
+          v-model="ruleForm.telephoneNumber"
           prefix-icon="iphone"
           placeholder="请输入手机号码"
       ></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em> 邮箱:</p>
-    <el-form-item label="" prop="checkPass">
+    <el-form-item label="邮箱" prop="email">
+        <el-input v-model="ruleForm.email" prefix-icon="message" placeholder="请输入您的邮箱"></el-input>
+      </el-form-item>
+
+    <el-form-item label="性别" prop="checkPass">
       <el-input
+          :maxlength="16"
           type="password"
           autocomplete="off"
           v-model="ruleForm.checkPass"
@@ -68,36 +70,19 @@
       ></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em> 姓名:</p>
-    <el-form-item label="" prop="checkPass">
-      <el-input
-          type="password"
-          autocomplete="off"
-          v-model="ruleForm.checkPass"
-          prefix-icon="message"
-          placeholder="请输入您的邮箱"
-      ></el-input>
+    <el-form-item label="年龄" prop="age">
+      <el-input v-model.number="ruleForm.age" prefix-icon="editPen" placeholder="请输入你的年龄"></el-input>
     </el-form-item>
 
-    <p><em style="color: #d23243">*</em> 年龄:</p>
-    <el-form-item label="" prop="checkPass">
+    <el-form-item label="身份证号" prop="idCard">
       <el-input
-          type="password"
+          :maxlength="18"
+          type="text"
+          v-model="ruleForm.idCard"
           autocomplete="off"
-          v-model="ruleForm.checkPass"
-          prefix-icon="message"
-          placeholder="请输入您的邮箱"
-      ></el-input>
-    </el-form-item>
-
-    <p><em style="color: #d23243">*</em>身份证:</p>
-    <el-form-item label="" prop="checkPass">
-      <el-input
-          type="password"
-          autocomplete="off"
-          v-model="ruleForm.checkPass"
-          prefix-icon="CreditCard"
-          placeholder="请输入您的身份证"
+          prefix-icon="Memo"
+          class="el-input"
+          placeholder="请输入你的身份证号"
       ></el-input>
     </el-form-item>
 
@@ -118,14 +103,24 @@
 <script>
 export default {
   data() {
+    var checkName = (rule,value,callback) =>{
+      if (value===""){
+        callback(new Error("请输入用户名"))
+      }else if (this.nameCheck(value)){
+        callback()
+      }else {
+        callback(new Error('用户名只能2~5个中文、字母和数字,不能包含特殊字符'))
+      }
+    };
+
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
+      } else if (this.passCheck(value)){
+        this.$refs.ruleForm.validateField("checkPass");
         callback();
+      } else {
+        callback(new Error("密码格式不对;应由6~10位的数字+字母；字母+特殊字符，特殊字符+数字"))
       }
     };
 
@@ -139,22 +134,83 @@ export default {
       }
     };
 
+    var telephoneNumber = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入手机号'))
+      }else if (this.teleRuleCheck(value)){
+        callback()
+      } else {
+        callback(new Error('请输入正确手机号'))
+      }
+    };
+
+    var checkemail = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入邮箱'))
+      } else if (this.email_blur(value)) {
+        alert('邮箱正确')
+        callback()
+      } else {
+
+        callback(new Error('邮箱格式有误!'))
+      }
+    };
+
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('年龄不能为空'))
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          if (value < 18) {
+            callback(new Error('必须年满18岁'))
+          } else {
+            callback()
+          }
+        }
+      }, 1000)
+    }
+
+    var idCard = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入身份证号码'))
+      } else if (this.idCardRuleCheck(value)) {
+        callback()
+      } else {
+        callback(new Error('身份证格式不对'))
+      }
+    };
+
     return {
       activeName: "second",
       ruleForm: {
         name: "",
         pass: "",
+        age: '',
+        idCard: '',
+        email: '',
         checkPass: "",
+        telephoneNumber:'',
       },
       rules: {
+        telephoneNumber: [
+            { required:true,validator: telephoneNumber, trigger: 'blur' }
+        ],
         name: [
-          { required: true, message: "请输入您的名称", trigger: "blur" },
+          {required: true, validator:checkName,trigger: 'blur'},
           { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
         ],
-        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
+        pass: [
+          { required: true, validator: validatePass, trigger: "blur" },
+        ],
         checkPass: [
           { required: true, validator: validatePass2, trigger: "blur" },
         ],
+        email: [{ validator: checkemail, trigger: 'blur' }],
+        age: [{ validator: checkAge, trigger: 'blur' }],
+        idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
       },
     };
   },
@@ -177,10 +233,50 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    teleRuleCheck(stringber) {
+      var pattern = /^1[34578]\d{9}$/;
+      if (pattern.test(stringber)) {
+        return true;
+      }else {
+        console.log('check mobile phone ' + stringber + ' failed.');
+        return false;
+      }
+    },
+    nameCheck(String){
+      var partten = /^[\u4E00-\u9FA5A-Za-z0-9]+$/
+      if (partten.test(String)){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    passCheck(pass) {
+      let partten = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,15}$/;
+      if (partten.test(pass)){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    email_blur(string) {
+      var verify = /^[1-9][0-9]{4,10}@qq.com$/;
+      if (verify.test(string)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    idCardRuleCheck(string) {
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      if(reg.test(string) === false) {
+        return  false;
+      }else {
+        return true;
+      }
+    },
   },
 };
 </script>
-
-<style src="@/static/css/Register.css" scoped/>
+<style src="@/static/css/Register.css"  scoped/>
 
 

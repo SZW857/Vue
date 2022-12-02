@@ -6,14 +6,6 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
-      plugins: [
-        AutoImport({
-          resolvers: [ElementPlusResolver()],
-        }),
-        Components({
-          resolvers: [ElementPlusResolver()],
-        }),
-      ],
 
   resolve: { extensions: [".ts", ".tsx", ".js", ".json"] },
   module: {
@@ -29,6 +21,7 @@ module.exports = defineConfig({
     ]
    },
   },
+
 })
 
 

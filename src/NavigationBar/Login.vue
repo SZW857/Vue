@@ -47,8 +47,7 @@
       </el-form><br>
        <span >
          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-         <el-link  >忘记密码？</el-link>
-         <el-link >立即注册</el-link>
+         <el-link href="/forgetPwd">忘记密码？</el-link>
        </span>
        </div>
     </div>
