@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1dc69cf0-3d73-4e7d-b9dc-446a8bd1272c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/NavigationBar/test.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ForgetPwd/Finish.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ForgetPwd/ForgotPwdTemplate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Index/CommunityAnnouncements.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SIdentify.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/identify.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/js/verifyCode.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/picture/02.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/picture/03.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/picture/greenRight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auto-imports.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/auto-imports.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/components.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NavigationBar/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/NavigationBar/HomeView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NavigationBar/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/NavigationBar/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NavigationBar/PointsGoods.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/NavigationBar/PointsGoods.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NavigationBar/PointsRanking.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/NavigationBar/PointsRanking.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NavigationBar/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/NavigationBar/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Index/BoxContainer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Index/CommunityNews.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Index/CarouselChart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Index/CarouselChart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/css/Register.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/css/Register.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/picture/iceberg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2HE8UZD6bdo3CO9TtXwuFcW69dV" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/static/picture" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+    <property name="ts.external.directory.path" value="C:\Users\14486\Desktop\社区公益系统前端\vue_community\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\static\picture" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\node_modules" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\static" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\static\vedio" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\components\ForgetPwd" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\NavigationBar" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\components\Index" />
+      <recent name="C:\Users\14486\Desktop\社区公益系统前端\vue_community\src\NavigationBar\Submenu" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1dc69cf0-3d73-4e7d-b9dc-446a8bd1272c" name="Changes" comment="" />
+      <created>1667838899037</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667838899037</updated>
+      <workItem from="1667838900855" duration="901000" />
+      <workItem from="1667840005799" duration="19053000" />
+      <workItem from="1667861979061" duration="215000" />
+      <workItem from="1667862221932" duration="267000" />
+      <workItem from="1667885801605" duration="5990000" />
+      <workItem from="1667892451606" duration="3708000" />
+      <workItem from="1667896452951" duration="177000" />
+      <workItem from="1667914612434" duration="7716000" />
+      <workItem from="1667971462298" duration="10744000" />
+      <workItem from="1668041438920" duration="6066000" />
+      <workItem from="1668151092041" duration="8725000" />
+      <workItem from="1668242922020" duration="25212000" />
+      <workItem from="1668305365080" duration="4353000" />
+      <workItem from="1668309791964" duration="37642000" />
+      <workItem from="1668389832598" duration="31239000" />
+      <workItem from="1668481288372" duration="69000" />
+      <workItem from="1668482340321" duration="348000" />
+      <workItem from="1668482699797" duration="21146000" />
+      <workItem from="1668505112243" duration="405000" />
+      <workItem from="1668505556086" duration="52000" />
+      <workItem from="1668505729649" duration="1620000" />
+      <workItem from="1668507754814" duration="25893000" />
+      <workItem from="1668572703728" duration="137000" />
+      <workItem from="1668573482690" duration="2067000" />
+      <workItem from="1668575728270" duration="2759000" />
+      <workItem from="1668578512466" duration="1220000" />
+      <workItem from="1668579922044" duration="2444000" />
+      <workItem from="1668588565768" duration="11919000" />
+      <workItem from="1668760737885" duration="2000" />
+      <workItem from="1668760785239" duration="10000" />
+      <workItem from="1668761701956" duration="16000" />
+      <workItem from="1668762401205" duration="10000" />
+      <workItem from="1668762624359" duration="21000" />
+      <workItem from="1668762871892" duration="495000" />
+      <workItem from="1668763385803" duration="9000" />
+      <workItem from="1668764123685" duration="4295000" />
+      <workItem from="1668775083726" duration="1000" />
+      <workItem from="1668864134499" duration="98000" />
+      <workItem from="1668867259993" duration="890000" />
+      <workItem from="1668947980529" duration="8794000" />
+      <workItem from="1669044162704" duration="2806000" />
+      <workItem from="1669046991846" duration="1442000" />
+      <workItem from="1669184683274" duration="34359000" />
+      <workItem from="1669258360417" duration="204000" />
+      <workItem from="1669258593994" duration="33385000" />
+      <workItem from="1669340031613" duration="17997000" />
+      <workItem from="1669366959603" duration="499000" />
+      <workItem from="1669367632307" duration="10667000" />
+      <workItem from="1669382941403" duration="2584000" />
+      <workItem from="1669447996511" duration="751000" />
+      <workItem from="1669500850140" duration="1101000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
