@@ -1,53 +1,53 @@
 <template>
   <el-container>
     <el-main class="login_body">
-     <div class="main_form" v-loading="loading">
-       <div id="login_content">
-      <span style="margin-top: 20px;"> <h1>请登录</h1></span>
-      <el-form
-          :model="ruleForm"
-          status-icon
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-      >
-        <el-form-item  prop="pass" >
-          <el-input
+      <div class="main_form" v-loading="loading">
+        <div id="login_content">
+          <span style="margin-top: 20px;"> <h1>请登录</h1></span>
+          <el-form
+              :model="ruleForm"
+              status-icon
+              :rules="rules"
+              ref="ruleForm"
+              label-width="100px"
+              class="demo-ruleForm"
+          >
+            <el-form-item  prop="pass" >
+              <el-input
 
-              :maxlength="11"
-              style="width: 350px"
-              placeholder="请输入用户名"
-              type="text"
-              v-model="ruleForm.pass"
-              autocomplete="off"
-              prefix-icon="User"
-          ></el-input>
-        </el-form-item>
-        <el-form-item  prop="checkPass">
-          <el-input
-              :maxlength="12"
-              prefix-icon="Lock"
-              placeholder="密码"
-              style="width: 350px"
-              show-password
-              type="password"
-              v-model="ruleForm.checkPass"
-              autocomplete="off"
-          ></el-input>
-        </el-form-item>
+                  :maxlength="11"
+                  style="width: 350px"
+                  placeholder="请输入用户名"
+                  type="text"
+                  v-model="ruleForm.pass"
+                  autocomplete="off"
+                  prefix-icon="User"
+              ></el-input>
+            </el-form-item>
+            <el-form-item  prop="checkPass">
+              <el-input
+                  :maxlength="12"
+                  prefix-icon="Lock"
+                  placeholder="密码"
+                  style="width: 350px"
+                  show-password
+                  type="password"
+                  v-model="ruleForm.checkPass"
+                  autocomplete="off"
+              ></el-input>
+            </el-form-item>
 
-        <el-form-item id="btn">
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
-      </el-form><br>
-       <span >
+            <el-form-item id="btn">
+              <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form><br>
+          <span >
          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
          <el-link href="/forgetPwd">忘记密码？</el-link>
        </span>
-       </div>
-    </div>
+        </div>
+      </div>
     </el-main>
 
   </el-container>
@@ -78,8 +78,8 @@ export default {
     };
     return {
       loading: false,
-       radio:3,
-       ruleForm: {
+      radio:3,
+      ruleForm: {
         pass: "",
         checkPass: "",
         User,Avatar
@@ -114,4 +114,4 @@ export default {
 </script>
 
 
-<style src="@/static/css/Login.css" scoped/>
+<style src="@/static/css/Admain.css" scoped/>

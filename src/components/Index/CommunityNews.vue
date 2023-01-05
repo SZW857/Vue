@@ -12,10 +12,7 @@
     <div class="new_title"></div>
     <div class="new_item">社区要闻</div>
     <div class="new-list">
-      <a herf="" class="new-list" > <div class="img-box"><img src="@/static/picture/icon-banner-bottom-1.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-2.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-3.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-3.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
+
     </div>
   </div>
   <div class="container">

@@ -23,28 +23,13 @@
           router
       >
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
-        <el-sub-menu index="2">
-          <template #title>志愿者招募</template>
-          <el-menu-item index="2-1">item one</el-menu-item>
-          <el-menu-item index="2-2">item two</el-menu-item>
-          <el-menu-item index="2-3">item three</el-menu-item>
-        </el-sub-menu>
         <el-menu-item index="/projects" >志愿活动</el-menu-item>
-        <el-menu-item index="/goods1" >积分商品</el-menu-item>
-        <el-menu-item index="/goods2" >荣誉榜</el-menu-item>
+        <el-menu-item index="/honor" >荣誉榜</el-menu-item>
         <el-menu-item index="/goods">测试页</el-menu-item>
-        <el-sub-menu  index="10">
-          <template #title>平台简介</template>
-          <el-menu-item index="/video">动画</el-menu-item>
-          <el-menu-item index="2-2">社区要闻</el-menu-item>
-          <el-menu-item index="2-3">社区公告栏</el-menu-item>
-          <el-sub-menu index="2-4">
-            <template #title>item four</template>
-            <el-menu-item index="2-4-1">item one</el-menu-item>
-            <el-menu-item index="2-4-2">item two</el-menu-item>
-            <el-menu-item index="2-4-3">item three</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
+        <el-menu-item index="/video">社区公益推广</el-menu-item>
+        <el-menu-item index="/news">社区要闻</el-menu-item>
+        <el-menu-item index="/freeze">别动</el-menu-item>
+        <el-menu-item index="/admin">后台管理入口</el-menu-item>
       </el-menu>
     </div>
 

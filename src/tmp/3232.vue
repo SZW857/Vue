@@ -21,12 +21,14 @@
               <el-menu-item index="/cInfo_p">修改个人资料</el-menu-item>
             </el-menu-item-group>
 
+
           </el-sub-menu>
           <el-sub-menu index="2">
             <template #title>
               <el-icon><icon-menu /></el-icon>活动报名
             </template>
             <el-menu-item-group>
+
               <el-menu-item index="2-1">活动报名结果</el-menu-item>
               <el-menu-item index="2-2">退选活动结果</el-menu-item>
               <el-menu-item index="2-3">活动报名日志</el-menu-item>
@@ -42,7 +44,7 @@
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <div class="toolbar">
-          <el-button type="primary" @click="bbb">前台首页</el-button>
+          <el-button type="primary">前台首页</el-button>
           <el-button type="danger">安全退出</el-button>&emsp;
           欢迎登陆:
           <el-dropdown>
@@ -57,7 +59,7 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>{{parsams.userName}}</span>
+          <span>jerry</span>
         </div>
       </el-header>
       <el-mains style="background-color: #77b093">
@@ -69,13 +71,11 @@
   </el-container>
 </template>
 
-
 <script lang="ts" setup>
 
 import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { reactive,ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-const parsams=JSON.parse(localStorage.getItem("usernames")||'{}')
 
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
@@ -148,9 +148,7 @@ const rules = reactive<FormRules>({
   ],
 
 })
-const bbb = () => {
 
-}
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
@@ -184,7 +182,6 @@ const item = {
   address: 'No. 189, Grove St, Los Angeles',
 }
 const tableData = ref(Array.from({ length: 20 }).fill(item))
-
 </script>
 
 <style scoped>

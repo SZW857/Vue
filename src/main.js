@@ -2,7 +2,8 @@ import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import store from './store'
 import App from '@/App.vue'
-import router from './router'
+import router from '@/router'
+import axios from 'axios'
 
 
 //导入All图标
@@ -18,3 +19,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(store)
 app.use(ElementPlus)
 app.use(router).mount('#app')
+app.config.globalProperties.$axios = axios
+
+
