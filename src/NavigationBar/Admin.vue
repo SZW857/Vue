@@ -172,6 +172,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!')
     } else {
       console.log('error submit!', fields)
+      alert("212122")
     }
   })
 }
