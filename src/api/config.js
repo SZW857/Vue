@@ -10,13 +10,6 @@ export const postRequest = (path,param) => {
         },
         params:param,
         dataType: 'json'
-<<<<<<< HEAD
-
-       
-
-=======
-        
->>>>>>> 4de308e703d7ab56d117e0d43fadf49f549f5e5f
     })
 }
 export const getRequest = (path,params) => {

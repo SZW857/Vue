@@ -28,7 +28,7 @@
         <el-menu-item index="/goods">测试页</el-menu-item>
         <el-menu-item index="/video">社区公益推广</el-menu-item>
         <el-menu-item index="/news">社区要闻</el-menu-item>
-        <el-menu-item index="/freeze">别动</el-menu-item>
+        <el-menu-item index="/freeze">不动</el-menu-item>
         <el-menu-item index="/admin">后台管理入口</el-menu-item>
       </el-menu>
     </div>
