@@ -8,7 +8,6 @@ export default {
 
   methods:{
     send(){
-      //45454
       // axios.get('http://127.0.0.1:8083/hell1',{params:_this.ruleForm}).
       // then((res)=>{
       //     if (res.data){
