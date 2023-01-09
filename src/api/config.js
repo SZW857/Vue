@@ -10,9 +10,7 @@ export const postRequest = (path,param) => {
         },
         params:param,
         dataType: 'json'
-
-       
-
+        
     })
 }
 export const getRequest = (path,params) => {
@@ -37,5 +35,6 @@ export const getRest = (path,param) => {
         },
         params:param,
         dataType: 'json'
+
     })
 }
