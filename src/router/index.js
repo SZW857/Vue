@@ -108,30 +108,31 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-router.beforeEach((to,from,next)=>{
-  if (to.path.startsWith('/login')){
-    window.localStorage.removeItem('usernames')
-    next()
-  }else {
-    let admin=JSON.parse(window.localStorage.getItem("usernames"))
-    if (!admin){
-      next({path:'/login'})
-    }else {
-      axios({
-        url:'http://127.0.0.1:8083/hello',
-        method:'get',
-        headers:{
-          token:admin.token
-        }
-      }).then((resp)=>{
-        if (!resp.data){
-          console.log('校验失败')
-          next({path:"/error"})
-        }
-      })
-      next()
-    }
-  }
-})
+
+// router.beforeEach((to,from,next)=>{
+//   if (to.path.startsWith('/login')){
+//     window.localStorage.removeItem('usernames')
+//     next()
+//   }else {
+//     let admin=JSON.parse(window.localStorage.getItem("usernames"))
+//     if (!admin){
+//       next({path:'/login'})
+//     }else {
+//       axios({
+//         url:'http://127.0.0.1:8083/hello',
+//         method:'get',
+//         headers:{
+//           token:admin.token
+//         }
+//       }).then((resp)=>{
+//         if (!resp.data){
+//           console.log('校验失败')
+//           next({path:"/error"})
+//         }
+//       })
+//       next()
+//     }
+//   }
+// })
 
 export default router

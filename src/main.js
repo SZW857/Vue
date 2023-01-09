@@ -10,6 +10,7 @@ import axios from 'axios'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/index.scss'
 import 'element-plus/dist/index.css'
+import { vLoading } from 'element-plus/es/components/loading/src/directive' // 按需引入loading组件
 
 
 const app=createApp(App)
@@ -20,5 +21,6 @@ app.use(store)
 app.use(ElementPlus)
 app.use(router).mount('#app')
 app.config.globalProperties.$axios = axios
+app.directive('load',vLoading)
 
 

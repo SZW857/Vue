@@ -1,33 +1,38 @@
 // 这里是封装好的aioxs
 import api from '@/request/index.js'
-// 登录
-export const postRequest = (tele,code) => {
+
+export const postRequest = (path,param) => {
     return api({
-        url: '/sendMessage',
+        url: path,
         method: 'POST',
         headers:{
             "Content-Type" : "application/json;charset=utf-8",
         },
-        params:{
-             tele,
-             code
-        },
-
+        params:param,
+        dataType: 'json'
     })
 }
-export const getRequest = (data) => {
+export const getRequest = (path,params) => {
     return api({
-        url: '/hello',
-        method: 'POST',
+        url: path,
+        method: 'GET',
         headers:{
             "Content-Type" : "application/json;charset=utf-8",
         },
         data:{
-
         },
-        params:{
+        params:params
 
-        }
-
+    })
+}
+export const getRest = (path,param) => {
+    return api({
+        url: path,
+        method: 'GET',
+        headers:{
+            "Content-Type" : "application/json;charset=utf-8",
+        },
+        params:param,
+        dataType: 'json'
     })
 }

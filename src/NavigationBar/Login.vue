@@ -1,7 +1,11 @@
 <template>
   <el-container>
     <el-main class="login_body">
-     <div class="main_form" v-loading="loading">
+     <div
+         class="main_form"
+         v-loading="loading"
+         element-loading-text="拼命加载中..."
+     >
        <div id="login_content">
       <span style="margin-top: 20px;"> <h1>请登录</h1></span>
       <el-form
@@ -12,19 +16,19 @@
           label-width="100px"
           class="demo-ruleForm"
       >
-        <el-form-item  prop="pass" >
+        <el-form-item  prop="userId" >
           <el-input
 
               :maxlength="11"
               style="width: 350px"
               placeholder="请输入用户名"
               type="text"
-              v-model="ruleForm.pass"
+              v-model="ruleForm.userId"
               autocomplete="off"
               prefix-icon="User"
           ></el-input>
         </el-form-item>
-        <el-form-item  prop="checkPass">
+        <el-form-item  prop="passwd">
           <el-input
               :maxlength="12"
               prefix-icon="Lock"
@@ -32,7 +36,7 @@
               style="width: 350px"
               show-password
               type="password"
-              v-model="ruleForm.checkPass"
+              v-model="ruleForm.passwd"
               autocomplete="off"
           ></el-input>
         </el-form-item>
@@ -55,50 +59,73 @@
 </template>
 
 <script>
-import {User,Avatar} from '@element-plus/icons-vue'
+import {getRequest, postRequest,getRest} from "@/api/config";
+import axios from "axios";
 export default {
   name: "app",
   data() {
-    var validatePass = (rule, value, callback) => {
+    var validateUserName = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入用户信息"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+        if (this.ruleForm.userId !== "") {
+          let userId=this.ruleForm.userId
+          getRequest("/usernamecheck/"+userId).then((res)=>{
+            if (res.data.status==="fail"){
+              callback(new Error("请先通过注册"))
+            }else {
+              callback()
+            }
+          })
+          this.ruleForm.userId=value
         }
-        callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
+    var validatePasswd = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        callback();
+        callback()
       }
     };
     return {
       loading: false,
-       radio:3,
        ruleForm: {
-        pass: "",
-        checkPass: "",
-        User,Avatar
-
+         userId: "",
+         passwd: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        userId: [{ validator: validateUserName, trigger: "blur" }],
+        passwd: [{ validator: validatePasswd, trigger: "blur" }],
       },
     };
   },
   methods: {
     submitForm(formName) {
+      let _this=this
       this.$refs[formName].validate((valid) => {
+        let timeout=1500
         if (valid) {
-          this.loading = true;
+          this.loading = true
+          getRest('/login',_this.ruleForm).then((res)=>{
+            //将token存入localstorge中
+            if (res.data.status==="success"){
+              console.log(res.data)
+              // window.localStorage.setItem("volunteer",JSON.stringify(res.data))
+              // console.log(res.data)
+            }else {
+              alert(22222)
+            }
+          })
           setTimeout(() => {
+            // getRequest("/login",{params:_this.ruleForm}).then((res)=>{
+            //
+            //
+            //     })
             this.loading = false;
-          }, 1000);
+
+          }, timeout);
+
         } else {
           console.log("error submit!!");
           return false;
@@ -112,6 +139,7 @@ export default {
 
 }
 </script>
+
 
 
 <style src="@/static/css/Login.css" scoped/>

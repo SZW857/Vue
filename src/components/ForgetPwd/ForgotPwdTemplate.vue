@@ -28,6 +28,7 @@
               autocomplete="off"
               prefix-icon="Memo"
               class="el-input"
+
           ></el-input>
         </el-form-item>
           <el-form-item label="验证码" prop="verifycode">
@@ -135,17 +136,15 @@
 
 <script>
 
-
 import { ElMessage } from 'element-plus'
 import SIdentify from '@/components/identify'
-import { postRequest } from '@/api/config.js'
+import {getRequest, postRequest } from '@/api/config.js'
 import {CaptchaEncryption} from '@/static/js/CaptchaEncryption.js'
 export default {
-
   name:'ForgotPwdTemplate',
   components: {SIdentify},
   data() {
-    var validateVerifycode = (rule, value, callback) => {
+    const validateVerifycode = (rule, value, callback) => {
       const newVal = this.identifyCode.toUpperCase()
       const identifyStr = this.identifyCode.toLowerCase()
       if (value === '')  {
@@ -159,7 +158,7 @@ export default {
         callback(new Error('验证码不正确!'))
       }
     }
-    var telephoneNumber = (rule, value, callback) => {
+    const telephoneNumber = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号'))
       }else if (this.teleRuleCheck(value)){
@@ -168,18 +167,24 @@ export default {
         callback("手机格式不正确");
       }
     }
-    var idCard = (rule, value, callback) => {
+    const idCard = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入身份证号码'))
-      } else if (this.idCardRuleCheck(value)) {
-        this.IdCard=value
-        callback()
-      } else {
+      } else if (!this.idCardRuleCheck(value)) {
         callback(new Error('身份证格式不对'))
+      }else {
+        getRequest("/idcardcheck/"+value).then((res)=>{
+          if (res.data.status==="fail"){
+            callback(new Error("请先通过注册"))
+          }else {
+            this.IdCard=value
+            callback()
+          }
+        })
       }
     }
     //修改密码校验
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
         console.log(value)
@@ -195,7 +200,7 @@ export default {
 
 
     }
-    var validatePass2 = (rule, value, callback) => {
+    const validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.pass) {
@@ -205,7 +210,7 @@ export default {
       }
     }
     //反馈的验证码校验
-    var feedbackCode = (rule, value, callback) => {
+    const feedbackCode = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入反馈的验证码'))
       } else if (this.codeValue===(value)) {
@@ -247,10 +252,12 @@ export default {
 
   },
   methods: {
+    //提交表单的验证
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.active++>3) this.active=0
+
         } else {
           ElMessage({
             message: '完善信息方可进入下一步',
@@ -260,24 +267,20 @@ export default {
         }
       })
     },
-
+    //发送短信
     sendMsg(formName) {
       // form为表单名字并ref="form"; prop 换成你想监听的prop字段
       this.$refs[formName].validateField('telephoneNumber', (errMsg) => {
         if (!errMsg) {
           alert('请通过手机格式验证!')
         }else{
-          var code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
+          const code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
           this.codeValue=code
           alert(this.codeValue)
-          var falseCode=CaptchaEncryption(code)
-          var telephoneNum=this.ruleForm.telephoneNumber
-          var readyData=JSON.stringify({
-            tele:telephoneNum,
-            code:falseCode
-          });
-           postRequest(telephoneNum,falseCode)
+          const falseCode=CaptchaEncryption(code)
+          const telephoneNum=this.ruleForm.telephoneNumber
 
+           postRequest(telephoneNum,falseCode,"/sendMessage11")
           if (this.canClick) return
           this.canClick = true
           this.content = this.totalTime + 's后重新发送'
@@ -294,79 +297,39 @@ export default {
         }
       })
     },
-
-
-    encryptByDES(message, key){
-      var keyHex = CryptoJS.enc.Utf8.parse(key);
-      var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-      });
-      return encrypted.ciphertext.toString();
-    }
-    ,
+    //重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
+    //上一步
     prev(){
       --this.active;
       if (this.active<0) this.active=0
     },
+    //提交表单
     sub(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          let confirmPass=this.ruleForm.confirmPass
+          let idCard=this.ruleForm.idCard
+          postRequest('/changpasswd',{passwd:confirmPass,idCard:idCard})
           this.active++;
-          if (this.active=4){
+          if (this.active===4){
             ElMessage({
               message: '恭喜你！已重获密码',
               type: 'success',
             })
+
             this.$router.replace('/finish')
           }
         } else {
           alert('请输入正确的密码')
-
         }
       })
     },
-    //规则如下：先得到每位数，然后每位数都加上5，再对10求余，最后将所有数字反转，得到一串新数。
-    CaptchaEncryption(){
-
-      var num = 123456;// 输入的数字
-      // 1、把整数里面的每一位放到数组里
-      var str = num.toString();// 转化为字符串
-      var intArray = new int[str.length()];// 新建一个数组用来保存num每一位的数字
-      for (var i = 0; i < str.length(); i++) {
-        // 遍历str将每一位数字添加如intArray
-        var ch = str.charAt(i);
-        intArray[i] = Integer.parseInt(ch.toString());
-      }
-      // 2、加密
-      // 每位数都加上5
-      for (var i = 0; i < intArray.length; i++) {
-        intArray[i] = intArray[i] + 5;
-      }
-      // 再对10求余
-      for (var i = 0; i < intArray.length; i++) {
-        intArray[i] = intArray[i] % 10;
-      }
-      // 将所有数字反转
-      for (var i = 0, j = intArray.length - 1; i < j; i++, j--) {
-        var temp = intArray[i];
-        intArray[i] = intArray[j];
-        intArray[j] = temp;
-      }
-      // 3.把数组里面的每个数字进行拼接，变成加密之后的结果
-      var number = 0;
-      for (var i = 0; i < intArray.length; i++) {
-        number = number * 10 + intArray[i];
-      }
-      alert(number)
-    }
-    ,
     //手机号格式校验
     teleRuleCheck(stringber) {
-      var pattern = /^1[34578]\d{9}$/;
+      const pattern = /^1[34578]\d{9}$/;
       if (pattern.test(stringber)) {
         return true;
       }else {
@@ -377,7 +340,7 @@ export default {
     },
     //身份证规则校验
     idCardRuleCheck(string) {
-      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
       if(reg.test(string) === false) {
         return  false;
       }else {
@@ -436,14 +399,6 @@ export default {
 /deep/  .telephoneNumAndCode inpit{
   border: none
 }
-
-
-
-
-
-
-
-
 
 .codeGeting{
   background: #cdcdcd;
