@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../NavigationBar/HomeView.vue'
-import defaultProps from "ant-design-vue/lib/vc-slick/default-props";
-import axios from "axios";
 
 const routes = [
   {

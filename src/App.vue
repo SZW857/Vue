@@ -1,5 +1,5 @@
 <template>
-  <div class="index_container" >
+  <div class="index_container" :style="{'width': `${searchWidth}px`}">
     <div class="header">
       <div id="header_img">
         <img src="@/static/picture/5151.png">
@@ -14,7 +14,6 @@
 
     <div style="font-size: 150%">
       <el-menu
-          :default-active="activeIndex"
           class="el-menu-demo"
           mode="horizontal"
           background-color="#545C64"
@@ -36,7 +35,7 @@
 
     <router-view></router-view>
 
-    <div class="el_footer">
+    <div class="el_footer" :style="{'width': `${searchWidth}px`}" >
       <div id="el_footer_nav1">
         <h2>网站导航</h2>
         <router-link to="/">首页</router-link>|
@@ -59,11 +58,27 @@
   </div>
 </template>
 <style src="@/static/css/App.css" scoped/>
-<script lang="ts" setup>
+<script>
 import { ref } from 'vue'
-const activeIndex = ref('1')
-
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+export default {
+  data() {
+    return {
+      activeIndex:ref('2'),
+      searchWidth: 0
+    }
+  },
+  mounted() {
+    this.searchWidth = window.innerWidth; // 组件初始化的时候不会触发onresize事件，这里强制执行一次
+    window.onresize = () => {
+      if (!this.timer) { // 使用节流机制，降低函数被触发的频率
+        this.timer = true;
+        let that = this; // 匿名函数的执行环境具有全局性，为防止this丢失这里用that变量保存一下
+        setTimeout(function () {
+          that.searchWidth = window.innerWidth;
+          that.timer = false;
+        }, 400)
+      }
+    }
+  }
 }
 </script>
