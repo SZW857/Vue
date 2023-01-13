@@ -1,4 +1,3 @@
-// 这里是封装好的aioxs
 import api from '@/request/index.js'
 
 export const postRequest = (path,param) => {
@@ -22,18 +21,6 @@ export const getRequest = (path,params) => {
         data:{
         },
         params:params
-
-    })
-}
-export const getRest = (path,param) => {
-    return api({
-        url: path,
-        method: 'GET',
-        headers:{
-            "Content-Type" : "application/json;charset=utf-8",
-        },
-        params:param,
-        dataType: 'json'
 
     })
 }

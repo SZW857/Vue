@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 // element引入文件
-import { ElMessage } from 'element-plus'
+
 // 创建一个axios 实例
 const api = axios.create({
     baseURL: 'http://127.0.0.1:8083', // 基准地址
@@ -22,10 +22,6 @@ api.interceptors.request.use(
     // 放行
     return config;
 }, error => {
-        ElMessage({
-            message:"请求失败",
-            type: 'error',
-        })
         console.log(error)
     return Promise.reject(error)
 })
@@ -36,10 +32,6 @@ api.interceptors.request.use(
  这里用的是element-ui 里面的提示
  **/
 api.interceptors.response.use((res) => {
-    ElMessage({
-        message:"响应成功",
-        type: 'success',
-    })
     return res;
 }, err => {
     console.log(err);
@@ -49,10 +41,6 @@ api.interceptors.response.use((res) => {
     //     Toast.fail('请先登录');
     //     router.push({ path: '/login' });
     // }
-    ElMessage({
-        message:"响应失败",
-        type: 'error',
-    })
     return Promise.reject(err)
 })
 // 最后导出

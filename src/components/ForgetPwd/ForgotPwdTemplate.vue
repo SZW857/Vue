@@ -2,14 +2,14 @@
   <div class="container">
     <div class="StepBar">
       <el-steps :space="400" :active="active" finish-status="success" align-center>
-        <el-step title="填写账号" />
         <el-step title="身份验证" />
+        <el-step title="手机验证" />
         <el-step title="新密码" />
         <el-step title="完成" />
       </el-steps>
     </div>
     <div style="height: 500px;background-color: #ffffff;margin-top: 40px" v-if="active===1">
-      <h1>身份证号校验:</h1>
+      <h1>身份证号校验</h1>
       <div>
         <el-form
             :model="ruleForm"
@@ -50,6 +50,7 @@
       </div>
     </div>
     <div style="height: 600px;background-color: #c5b165;margin-top: 40px" v-if="active===2">
+
       <h1>请确认您的身份证号:{{IdCard}}</h1>
       <div>
         <el-form
@@ -135,9 +136,8 @@
 </template>
 
 <script>
-
 import { ElMessage } from 'element-plus'
-import SIdentify from '@/components/identify'
+import SIdentify from '@/components/VerifyCode/identify'
 import {getRequest, postRequest } from '@/api/config.js'
 import {CaptchaEncryption} from '@/static/js/CaptchaEncryption.js'
 export default {
@@ -213,7 +213,7 @@ export default {
     const feedbackCode = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入反馈的验证码'))
-      } else if (this.codeValue===(value)) {
+      } else if (this.valueCode===(value)) {
         callback()
       } else {
         callback(new Error('验证码不正确'))
@@ -232,10 +232,14 @@ export default {
         confirmPass: '',
         feedbackCode:''
       },
+      para:{
+        telephone:"",
+        falseCode:""
+      },
       content: '发送短信',
       totalTime: 5,
       canClick: false,
-      codeValue: 1,
+      valueCode: 1,
       IdCard:'',
       sendTele:'',
 
@@ -269,18 +273,15 @@ export default {
     },
     //发送短信
     sendMsg(formName) {
+      let _this=this
       // form为表单名字并ref="form"; prop 换成你想监听的prop字段
       this.$refs[formName].validateField('telephoneNumber', (errMsg) => {
         if (!errMsg) {
           alert('请通过手机格式验证!')
         }else{
           const code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
-          this.codeValue=code
-          alert(this.codeValue)
-          const falseCode=CaptchaEncryption(code)
-          const telephoneNum=this.ruleForm.telephoneNumber
-
-           postRequest(telephoneNum,falseCode,"/sendMessage11")
+          this.valueCode=code
+           postRequest("/user/sendMessage", {falseCode:_this.para.falseCode=CaptchaEncryption(code),telephoneNum:_this.para.telephone=this.ruleForm.telephoneNumber})
           if (this.canClick) return
           this.canClick = true
           this.content = this.totalTime + 's后重新发送'
@@ -308,20 +309,23 @@ export default {
     },
     //提交表单
     sub(formName){
+      let _this=this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let confirmPass=this.ruleForm.confirmPass
-          let idCard=this.ruleForm.idCard
-          postRequest('/changpasswd',{passwd:confirmPass,idCard:idCard})
-          this.active++;
-          if (this.active===4){
-            ElMessage({
-              message: '恭喜你！已重获密码',
-              type: 'success',
-            })
-
-            this.$router.replace('/finish')
-          }
+          let confirmPass=_this.ruleForm.confirmPass
+          let idCard=_this.ruleForm.idCard
+          let valueCode=_this.valueCode
+          alert(valueCode)
+          postRequest('/user/changPasswd',{idCard:idCard,passwd:confirmPass,valueCode:valueCode}).then(()=>{
+            _this.active++;
+            if (_this.active===4){
+              ElMessage({
+                message: '恭喜你！已重获密码',
+                type: 'success',
+              })
+              _this.$router.replace('/finish')
+            }
+          })
         } else {
           alert('请输入正确的密码')
         }

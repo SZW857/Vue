@@ -60,9 +60,10 @@
 
 <script>
 import {getRequest, postRequest,getRest} from "@/api/config";
-import axios from "axios";
+import router from '@/router/index.js'
+import {ElMessage} from "element-plus";
 export default {
-  name: "app",
+  //
   data() {
     var validateUserName = (rule, value, callback) => {
       if (value === "") {
@@ -70,24 +71,24 @@ export default {
       } else {
         if (this.ruleForm.userId !== "") {
           let userId=this.ruleForm.userId
-          getRequest("/usernamecheck/"+userId).then((res)=>{
+          getRequest("/user/NameCheck/", {userId}).then((res)=>{
             if (res.data.status==="fail"){
               callback(new Error("请先通过注册"))
             }else {
+              this.ruleForm.userId=value
               callback()
             }
           })
-          this.ruleForm.userId=value
         }
       }
     };
-    var validatePasswd = (rule, value, callback) => {
+    const validatePasswd = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
         callback()
       }
-    };
+    }
     return {
       loading: false,
        ruleForm: {
@@ -104,31 +105,42 @@ export default {
     submitForm(formName) {
       let _this=this
       this.$refs[formName].validate((valid) => {
-        let timeout=1500
         if (valid) {
-          this.loading = true
-          getRest('/login',_this.ruleForm).then((res)=>{
+          _this.loading = true;
+
+          getRequest('/user/login',_this.ruleForm).then((res)=>{
             //将token存入localstorge中
             if (res.data.status==="success"){
+              setTimeout(()=>{
+                _this.loading = false;
+                _this.$router.push("/freeze")
+                ElMessage({
+                  message: '登陆成功',
+                  grouping:true,
+                  type: 'success',
+                })
+              },1500);
               console.log(res.data)
-              // window.localStorage.setItem("volunteer",JSON.stringify(res.data))
-              // console.log(res.data)
+              window.localStorage.setItem("VolunteerToken",JSON.stringify(res.data))
+              console.log(res.data)
             }else {
-              alert(22222)
+              ElMessage({
+                message: '密码不正确',
+                grouping:true,
+                type: 'error',
+              })
+              this.loading = false;
             }
           })
-          setTimeout(() => {
-            // getRequest("/login",{params:_this.ruleForm}).then((res)=>{
-            //
-            //
-            //     })
-            this.loading = false;
-
-          }, timeout);
 
         } else {
-          console.log("error submit!!");
-          return false;
+          ElMessage({
+            message: '完善信息方可进入下一步',
+            grouping:true,
+            type: 'error',
+          })
+
+          router.push("/login")
         }
       });
     },
@@ -136,8 +148,8 @@ export default {
       this.$refs[formName].resetFields();
     },
   },
-
 }
+
 </script>
 
 

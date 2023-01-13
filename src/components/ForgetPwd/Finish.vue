@@ -7,6 +7,29 @@
     </div>
   </div>
 </template>
+<script>
+import { ElMessageBox } from 'element-plus'
+import { onMounted } from "vue";
+import router from '@/router/index.js'
+export default {
+  setup(){
+    onMounted(()=>{
+      open()
+    })
+  }
+}
+const open = () => {
+  ElMessageBox.alert('恭喜重获密码!，即将返回首页', '修改密码提示信息', {
+    type:'success',
+    confirmButtonText: 'OK',
+  })
+  setTimeout(()=>{
+    router.replace("/login")
+  },3000)
+
+}
+</script>
+
 <style scoped>
 .finish_container{
   margin-top: 40px;

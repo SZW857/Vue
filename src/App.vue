@@ -18,7 +18,7 @@
           mode="horizontal"
           background-color="#545C64"
           text-color="#fff"
-          active-text-color="#ffd04b"
+          active-text-color="#fff"
           router
       >
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
@@ -46,12 +46,12 @@
       </div>
       <div id="el_footer_nav2">
         <h2>联系我们</h2>
-        电话：029-83463902 转 123<br/>
+        电话：029-83463902 转 123456<br/>
         电邮：751225241@qq.com<br/>
         地址：西红市土豆区红薯街万事诸顺中心A座1234<br/>
       </div>
 
-      <div id="el_footer_bottom">
+      <div id="el_footer_bottom" :style="{'width': `${searchWidth}px`}">
         ©好公益平台 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：计算机学院所有老师
       </div>
     </div>
