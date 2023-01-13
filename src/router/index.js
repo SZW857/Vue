@@ -28,14 +28,7 @@ const router = createRouter({
     {
       path: '/forgetPwd',
       name:'forgetPwd',
-      component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/ForgotPwdTemplate.vue'),
-      children: [
-        {
-          path:'/finish',
-          name:'finish',
-          component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/Finish.vue'),
-        },
-      ]
+      component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/ForgotPwdTemplate.vue')
     },
     {
       path: "/video",
@@ -80,12 +73,12 @@ const router = createRouter({
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Admin.vue'),
       children: [
         {
-          path: '/cPasswd_a',
+          path: '/cPasswd_a',//*
           name:'cPasswd_a',
           component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changePasswd.vue'),
         },
         {
-          path: '/cInfo_a',
+          path: '/cInfo_a',//*
           name:'cInfo_a',
           component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changInfo.vue'),
         }
@@ -97,42 +90,31 @@ const router = createRouter({
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/HonorRoll.vue')
     },
     {
-      path: "/error",
+      path: "/loginOut",
       name: 'error',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/error.vue')
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/LoginOut.vue')
     },
     {
-      path: "/personal",
+      path: "/personal",//拦截
       name: 'personal',
       component: ()=> import(/* webpackChunkName: "about" */ '@/components/personalPage/personal.vue')
     }
   ]
 })
 
-// router.beforeEach((to,from,next)=>{
-//   if (to.path.startsWith('/login')){
-//     window.localStorage.removeItem('VolunteerToken')
-//     next()
-//   }else{
-//     let admin=JSON.parse(window.localStorage.getItem("VolunteerToken"))
-//     if (!admin){
-//       next({path:'/goods'})
-//     }else {
-//       axios({
-//         url:'http://127.0.0.1:8083/hello',
-//         method:'get',
-//         headers:{
-//           token:admin.token
-//         }
-//       }).then((resp)=>{
-//         if (!resp.data){
-//           console.log('校验失败')
-//           next({path:"/error"})
-//         }
-//       })
-//       next()
-//     }
-//   }
-// })
 
-export default router
+// 注册一个全局前置守卫
+router.beforeEach((to, from, next) => {
+    //判断当前路由是否需要进行权限控制
+  if (to.path==='/login'||to.path==='/'||to.path==='/register'||to.path==='/guide'||to.path==='/forgetPwd'||to.path===''){
+    return next()
+  }else {
+    if(localStorage.getItem('VolunteerToken') === null) {
+      alert("访问出错!!!")
+      next({path:'/'})
+    }
+  }
+})
+
+
+export default router;

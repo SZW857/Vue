@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="StepBar">
+    <span class="StepBar">
       <el-steps :space="400" :active="active" finish-status="success" align-center>
         <el-step title="身份验证" />
         <el-step title="手机验证" />
         <el-step title="新密码" />
         <el-step title="完成" />
       </el-steps>
-    </div>
+    </span>
     <div style="height: 500px;background-color: #ffffff;margin-top: 40px" v-if="active===1">
       <h1>身份证号校验</h1>
       <div>
@@ -31,9 +31,9 @@
 
           ></el-input>
         </el-form-item>
-          <el-form-item label="验证码" prop="verifycode">
+          <el-form-item label="验证码" prop="verifyCode">
             <el-input
-                v-model="ruleForm.verifycode"
+                v-model="ruleForm.verifyCode"
                 placeholder="请输入验证码"
                 type="text"
                 style="width: 250px"
@@ -128,18 +128,29 @@
             <el-button @click="sub('ruleForm')" v-if="active==3" type="primary">提交</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
+
         </el-form>
       </div>
     </div>
+    <template v-if="active===4">
+      <div class="finish_container">
+        <div class="box">
+          <div class="content1">
+            <div><img src="@/static/picture/greenRight.png"/><h1>密码修改完成</h1></div>
+          </div>
+        </div>
+      </div>
+  </template>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { ElMessage } from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import SIdentify from '@/components/VerifyCode/identify'
 import {getRequest, postRequest } from '@/api/config.js'
 import {CaptchaEncryption} from '@/static/js/CaptchaEncryption.js'
+import router from "@/router";
 export default {
   name:'ForgotPwdTemplate',
   components: {SIdentify},
@@ -154,7 +165,7 @@ export default {
       }else if (value === newVal){
         callback()
       }else {
-        console.log('validateVerifycode:', value)
+        console.log('verifyCode:', value)
         callback(new Error('验证码不正确!'))
       }
     }
@@ -196,10 +207,7 @@ export default {
            callback(new Error("密码格式不对(数字+密码组合,8~20位)"))
          }
       }
-
-
-
-    }
+    }//确认密码
     const validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -227,7 +235,7 @@ export default {
       ruleForm: {
         telephoneNumber: '',
         idCard: '',
-        verifycode: '',
+        verifyCode: '',
         pass:'',
         confirmPass: '',
         feedbackCode:''
@@ -248,13 +256,14 @@ export default {
         idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
         pass: [{ required:true,validator: validatePass, trigger: 'blur' }],
         confirmPass: [{ required:true,validator: validatePass2, trigger: 'blur' }],
-        verifycode: [{required: true, validator: validateVerifycode,trigger: 'blur' }],
+        verifyCode: [{required: true, validator: validateVerifycode,trigger: 'blur' }],
         feedbackCode:[{required:true,validator:feedbackCode,trigger:'blur'}]
       },
     }
 
 
   },
+
   methods: {
     //提交表单的验证
     submitForm(formName) {
@@ -315,17 +324,9 @@ export default {
           let confirmPass=_this.ruleForm.confirmPass
           let idCard=_this.ruleForm.idCard
           let valueCode=_this.valueCode
-          alert(valueCode)
-          postRequest('/user/changPasswd',{idCard:idCard,passwd:confirmPass,valueCode:valueCode}).then(()=>{
-            _this.active++;
-            if (_this.active===4){
-              ElMessage({
-                message: '恭喜你！已重获密码',
-                type: 'success',
-              })
-              _this.$router.replace('/finish')
-            }
-          })
+          postRequest('/user/changPasswd',{idCard:idCard,passwd:confirmPass,valueCode:valueCode})
+            _this.active++
+          open()
         } else {
           alert('请输入正确的密码')
         }
@@ -383,8 +384,18 @@ export default {
     this.identifyCode = ''
     this.makeCode(this.identifyCodes, 4)
   },
+}
+const open = () => {
+  ElMessageBox.alert('恭喜重获密码!，即将返回首页', '修改密码提示信息', {
+    type:'success',
+    confirmButtonText: 'OK',
+  })
+  setTimeout(()=>{
+    router.replace("/login")
+  },5000)
 
 }
+
 </script>
 
 
@@ -423,5 +434,26 @@ export default {
 .content{
   height: 700px;
   background-color: #1c95a9;
+}
+.finish_container{
+  margin-top: 180px;
+  background-color: #ffffff;
+  height: 600px;
+  color: #3ccb83;
+}
+.box{
+  background-color: #ffffff;
+  width: 600px;
+  height: 300px;
+  margin-left: 300px;
+  -webkit-box-shadow: #e5e2e2 0px 0px 10px;
+  -moz-box-shadow: #e5e2e2 0px 0px 30px;
+  box-shadow: #e5e2e2 0px 0px 30px;
+}
+.content1{
+  height: 150px;
+  position: absolute;
+  background-color: #ffffff;
+  margin: 80px 200px;
 }
 </style>

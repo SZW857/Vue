@@ -7,7 +7,7 @@
       <div id="header_nav" >
         <div style="color: #c5b165">
           <el-row>
-          <el-col :span="24" v-show="!show">欢迎登录:<el-icon><User/></el-icon>{{this.VOLUNTEER.extra}}&emsp;<el-button type="danger" v-show="true">安全退出</el-button></el-col>
+          <el-col :span="24" v-show="!show">欢迎登录:<el-icon><User/></el-icon>{{this.VOLUNTEER.extra}}&emsp;<el-button type="danger" v-show="true" @click="loginOut">安全退出</el-button></el-col>
           </el-row>
         </div>
         <div>
@@ -46,10 +46,10 @@
       <div id="el_footer_nav1">
         <h2>网站导航</h2>
         <router-link to="/">首页</router-link>|
-        <router-link to="/guide">公益产品最新消息</router-link>|
-        <router-link to="/Login">产品招募资源中心</router-link>|
-        <router-link to="/register">关于我们</router-link>|
-        <router-link to="">English</router-link>
+        <router-link to="/">公益产品最新消息</router-link>|
+        <router-link to="/">产品招募资源中心</router-link>|
+        <router-link to="/">关于我们</router-link>|
+        <router-link to="/">English</router-link>
       </div>
       <div id="el_footer_nav2">
         <h2>联系我们</h2>
@@ -74,8 +74,6 @@ export default {
       VOLUNTEER:{}
     }
   },
-
-
   mounted() {
     this.searchWidth = window.innerWidth; // 组件初始化的时候不会触发onresize事件，这里强制执行一次
     window.onresize = () => {
@@ -95,6 +93,11 @@ export default {
       _this.show=false
     }
   },
-
+  methods:{
+    loginOut(){
+      window.localStorage.removeItem("VolunteerToken");
+      window.location.replace("/loginOut")
+    }
+  }
 }
 </script>

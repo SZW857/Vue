@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -86,10 +88,17 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          ElMessage({
+            message: '提交成功',
+            grouping:true,
+            type: 'success',
+          })
         } else {
-          console.log('error submit!!')
-          return false
+          ElMessage({
+            message: '提交失败',
+            grouping:true,
+            type: 'error',
+          })
         }
       })
     },
@@ -97,7 +106,6 @@ export default {
       this.$refs[formName].resetFields()
     },
   },
-
 }
 </script>
 <style>
@@ -111,7 +119,8 @@ export default {
   width: 550px;
   position: absolute;
   margin-top:50px ;
-  background: linear-gradient(to bottom, rgb(146, 208, 140),lightblue);
+  background: linear-gradient(to bottom, rgb(129, 138, 125), #479cb7);
+  /*background: linear-gradient(to bottom, rgb(146, 208, 140),lightblue);*/
 }
 
 </style>

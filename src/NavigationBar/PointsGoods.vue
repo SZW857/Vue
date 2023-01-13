@@ -7,11 +7,12 @@
           background-color="#E1E6F0"
           class="el-menu-vertical-demo"
           mode="vertical"
-          router
+          default-openeds="['0','2']"
+          :router="true"
       >
-        <el-sub-menu index="/gh">
+        <el-sub-menu index="0">
           <template #title>
-            <el-icon><message /></el-icon>个人信息
+            <el-icon><user /></el-icon>个人信息
           </template>
           <el-menu-item-group>
             <el-menu-item index="/cPasswd_p">修改密码</el-menu-item>
@@ -44,63 +45,9 @@
   </el-container>
 </template>
 
-
 <script lang="ts" setup>
-
 import { Menu as IconMenu, Message } from '@element-plus/icons-vue'
-
-import type { FormInstance, FormRules } from 'element-plus'
-const parsams=JSON.parse(localStorage.getItem("usernames")||'{}')
-
-
-
-const ruleForm = {
-  name: '',
-  region: '',
-  count: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-  num: '',
-
-}
-
-
-
-const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
-    }
-  })
-}
-
-
-
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
-
-const options = Array.from({ length: 10000 }).map((_, idx) => ({
-  value: `${idx + 1}`,
-  label: `${idx + 1}`,
-}))
-
-
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
-}
-
-
+import {User} from "@element-plus/icons";
 </script>
 
 <style scoped>

@@ -45,11 +45,8 @@
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
-      </el-form><br>
-       <span >
-         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-         <el-link href="/forgetPwd">忘记密码？</el-link>
-       </span>
+      </el-form>
+         <p style="margin-left: 200px"><el-link href="/forgetPwd">忘记密码？</el-link></p>
        </div>
     </div>
     </el-main>
@@ -116,12 +113,12 @@ export default {
                 _this.$router.replace("/goods")
                 setTimeout(()=>{
                   this.flush()
-                },1500)
-                ElMessage({
-                  message: '登陆成功',
-                  grouping:true,
-                  type: 'success',
-                })
+                  ElMessage({
+                    message: '登陆成功',
+                    grouping:true,
+                    type: 'success',
+                  })
+                },300)
               },1500);
               window.localStorage.setItem("VolunteerToken",JSON.stringify(res.data))
               console.log(res.data)
