@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CarouselChart: typeof import('./src/components/Index/CarouselChart.vue')['default']
-    Catoon: typeof import('./src/components/Catoon.vue')['default']
     CommunityAnnouncements: typeof import('./src/components/Index/CommunityAnnouncements.vue')['default']
     CommunityNews: typeof import('./src/components/Index/CommunityNews.vue')['default']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
@@ -31,7 +30,6 @@ declare module '@vue/runtime-core' {
     ElRow: typeof import('element-plus/es')['ElRow']
     ForgotPwd: typeof import('./src/components/ForgetPwd/ForgotPwdTemplate.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
-    Primary: typeof import('./src/components/Primary.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

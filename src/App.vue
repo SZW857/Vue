@@ -5,9 +5,15 @@
         <img src="@/static/picture/5151.png">
       </div>
       <div id="header_nav" >
+        <div style="color: #c5b165">
+          <el-row>
+          <el-col :span="24" v-show="!show">欢迎登录:<el-icon><User/></el-icon>{{this.VOLUNTEER.extra}}&emsp;<el-button type="danger" v-show="true">安全退出</el-button></el-col>
+          </el-row>
+        </div>
         <div>
-          <router-link to="/login">登录</router-link>|
-          <router-link to="/register">注册</router-link>
+          <el-row>
+            <el-col :span="24" v-show="show"><router-link to="/login" >登录</router-link>|<router-link to="/register">注册</router-link></el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -24,11 +30,12 @@
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
         <el-menu-item index="/projects" >志愿活动</el-menu-item>
         <el-menu-item index="/honor" >荣誉榜</el-menu-item>
-        <el-menu-item index="/goods">测试页</el-menu-item>
         <el-menu-item index="/video">社区公益推广</el-menu-item>
         <el-menu-item index="/news">社区要闻</el-menu-item>
         <el-menu-item index="/freeze">不动</el-menu-item>
+        <el-menu-item index="/goods">个人页面</el-menu-item>
         <el-menu-item index="/admin">后台管理入口</el-menu-item>
+
       </el-menu>
     </div>
 
@@ -59,14 +66,16 @@
 </template>
 <style src="@/static/css/App.css" scoped/>
 <script>
-import { ref } from 'vue'
 export default {
   data() {
     return {
-      activeIndex:ref('2'),
-      searchWidth: 0
+      searchWidth: 0,
+      show:true,
+      VOLUNTEER:{}
     }
   },
+
+
   mounted() {
     this.searchWidth = window.innerWidth; // 组件初始化的时候不会触发onresize事件，这里强制执行一次
     window.onresize = () => {
@@ -79,6 +88,13 @@ export default {
         }, 400)
       }
     }
-  }
+    let _this=this
+    let V_TOKEN=JSON.parse(window.localStorage.getItem("VolunteerToken"));
+    if (V_TOKEN!=null){
+      _this.VOLUNTEER=V_TOKEN;
+      _this.show=false
+    }
+  },
+
 }
 </script>

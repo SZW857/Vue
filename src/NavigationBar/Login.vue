@@ -113,14 +113,16 @@ export default {
             if (res.data.status==="success"){
               setTimeout(()=>{
                 _this.loading = false;
-                _this.$router.push("/freeze")
+                _this.$router.replace("/goods")
+                setTimeout(()=>{
+                  this.flush()
+                },1500)
                 ElMessage({
                   message: '登陆成功',
                   grouping:true,
                   type: 'success',
                 })
               },1500);
-              console.log(res.data)
               window.localStorage.setItem("VolunteerToken",JSON.stringify(res.data))
               console.log(res.data)
             }else {
@@ -143,6 +145,9 @@ export default {
           router.push("/login")
         }
       });
+    },
+    flush(){
+      window.location.reload();
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

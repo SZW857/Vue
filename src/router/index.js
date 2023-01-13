@@ -100,18 +100,23 @@ const router = createRouter({
       path: "/error",
       name: 'error',
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/error.vue')
+    },
+    {
+      path: "/personal",
+      name: 'personal',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/components/personalPage/personal.vue')
     }
   ]
 })
 
 // router.beforeEach((to,from,next)=>{
 //   if (to.path.startsWith('/login')){
-//     window.localStorage.removeItem('usernames')
+//     window.localStorage.removeItem('VolunteerToken')
 //     next()
-//   }else {
-//     let admin=JSON.parse(window.localStorage.getItem("usernames"))
+//   }else{
+//     let admin=JSON.parse(window.localStorage.getItem("VolunteerToken"))
 //     if (!admin){
-//       next({path:'/login'})
+//       next({path:'/goods'})
 //     }else {
 //       axios({
 //         url:'http://127.0.0.1:8083/hello',

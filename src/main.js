@@ -5,7 +5,6 @@ import App from '@/App.vue'
 import router from '@/router'
 import axios from 'axios'
 
-
 //导入All图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/src/index.scss'
