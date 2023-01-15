@@ -3,7 +3,7 @@
     <el-main class="login_body">
      <div
          class="main_form"
-         v-loading="loading"
+         v-loading="this.loading"
          element-loading-text="拼命加载中..."
      >
        <div id="login_content">
@@ -56,9 +56,10 @@
 </template>
 
 <script>
-import {getRequest, postRequest,getRest} from "@/api/config";
+import {getRequest, postRequest,getRest} from "@/Api_Axios/config";
 import router from '@/router/index.js'
 import {ElMessage} from "element-plus";
+import { ref } from 'vue'
 export default {
   //
   data() {
@@ -87,7 +88,8 @@ export default {
       }
     }
     return {
-      loading: false,
+
+      loading: ref(false),
        ruleForm: {
          userId: "",
          passwd: "",
@@ -100,45 +102,39 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      let _this=this
       this.$refs[formName].validate((valid) => {
+        let _this=this
         if (valid) {
-          _this.loading = true;
-
+          _this.loading=true
+          setTimeout(()=>{
           getRequest('/user/login',_this.ruleForm).then((res)=>{
-            //将token存入localstorge中
-            if (res.data.status==="success"){
-              setTimeout(()=>{
-                _this.loading = false;
-                _this.$router.replace("/goods")
-                setTimeout(()=>{
+            //将token存入本地浏览器中
+              if (res.data.status === "success") {
+                console.log(res)
+                setTimeout(() => {
+                  _this.loading=false
                   this.flush()
-                  ElMessage({
-                    message: '登陆成功',
-                    grouping:true,
-                    type: 'success',
-                  })
-                },300)
-              },1500);
-              window.localStorage.setItem("VolunteerToken",JSON.stringify(res.data))
-              console.log(res.data)
-            }else {
-              ElMessage({
-                message: '密码不正确',
-                grouping:true,
-                type: 'error',
-              })
-              this.loading = false;
-            }
+                }, 800)
+                localStorage.setItem("VolunteerToken", JSON.stringify(res.data))
+                alert("登录成功")
+                router.replace("/PersonalPage")
+                console.log(res.data)
+              } else {
+                ElMessage({
+                  message: '密码不正确',
+                  grouping: true,
+                  type: 'error',
+                })
+                _this.loading=false
+              }
           })
-
+        },2000)
         } else {
           ElMessage({
             message: '完善信息方可进入下一步',
             grouping:true,
             type: 'error',
           })
-
           router.push("/login")
         }
       });
@@ -153,7 +149,5 @@ export default {
 }
 
 </script>
-
-
 
 <style src="@/static/css/Login.css" scoped/>

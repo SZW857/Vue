@@ -5,10 +5,11 @@
         <img src="@/static/picture/5151.png">
       </div>
       <div id="header_nav" >
-        <div style="color: #c5b165">
-          <el-row>
-          <el-col :span="24" v-show="!show">欢迎登录:<el-icon><User/></el-icon>{{this.VOLUNTEER.extra}}&emsp;<el-button type="danger" v-show="true" @click="loginOut">安全退出</el-button></el-col>
-          </el-row>
+        <div style="color: #67da25">
+               <div  v-show="!show">
+                欢迎登录:{{this.VOLUNTEER.extra}}&emsp;
+                <el-button type="danger" v-show="true" @click="loginOut">安全退出</el-button>
+               </div>
         </div>
         <div>
           <el-row>
@@ -33,9 +34,8 @@
         <el-menu-item index="/video">社区公益推广</el-menu-item>
         <el-menu-item index="/news">社区要闻</el-menu-item>
         <el-menu-item index="/freeze">不动</el-menu-item>
-        <el-menu-item index="/goods">个人页面</el-menu-item>
+        <el-menu-item index="/PersonalPage">个人页面</el-menu-item>
         <el-menu-item index="/admin">后台管理入口</el-menu-item>
-
       </el-menu>
     </div>
 
@@ -88,7 +88,7 @@ export default {
     }
     let _this=this
     let V_TOKEN=JSON.parse(window.localStorage.getItem("VolunteerToken"));
-    if (V_TOKEN!=null){
+    if (V_TOKEN!==null){
       _this.VOLUNTEER=V_TOKEN;
       _this.show=false
     }

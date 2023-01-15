@@ -1,11 +1,10 @@
-import api from '@/request/index.js'
+import api from '@/Axios/index.js'
 
 export const postRequest = (path,param) => {
     return api({
         url: path,
         method: 'POST',
-        headers:{
-            "Content-Type" : "application/json;charset=utf-8",
+        header: {
         },
         params:param,
         dataType: 'json'

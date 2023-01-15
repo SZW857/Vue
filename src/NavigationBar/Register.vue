@@ -67,6 +67,7 @@
           placeholder="请输入你的身份证号"
       ></el-input>
     </el-form-item>
+
     <el-form-item label="家庭地址" prop="address">
       <el-input
           :maxlength="30"
@@ -88,12 +89,13 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="请选择你的管理员" prop="idCardAdmin">
+    <el-form-item label="请选择你的管理员" prop="idCardAdmin" >
       <el-select
           v-model="ruleForm.idCardAdmin"
           placeholder="请选择你的管理员"
       >
-        <el-option v-bind:label="ad.adminName" v-for="(ad, index) in adminALLInfo" v-bind:value="ad.adminId"/>
+        <el-option :label="item.admin_name" v-for="(item) in adminALLInfo" :value="item.admin_id"/>
+
       </el-select>
     </el-form-item>
 
@@ -105,8 +107,6 @@
           style="width: 220px;"
       ></el-input-number>
     </el-form-item>
-
-
 
   </el-form>
          <div style="width: 800px" >
@@ -124,14 +124,16 @@
 
 <script>
 import { ElMessage } from 'element-plus'
-import { postRequest,getRequest } from '@/api/config.js'
+import { postRequest,getRequest } from '@/Api_Axios/config.js'
+import router from "@/router";
 export default {
   data() {
     var checkName = (rule,value,callback) =>{
       if (value===""){
         callback(new Error("请输入用户名"))
       }else if (this.usernameCheck(value)){
-        getRequest("/usernamecheck/"+value).then((res)=>{
+        let userId=value
+        getRequest("/user/NameCheck/",{userId}).then((res)=>{
           if (res.data.status==="fail"){
             this.ruleForm.userId=value
             callback()
@@ -139,11 +141,11 @@ export default {
             callback(new Error("该用户名已经存在"))
           }
         })
-
       }else {
         callback(new Error('用户名只能由2~8个中文、字母和数字下划线组成,不能包含特殊字符'))
       }
     };
+
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -166,44 +168,57 @@ export default {
       }
     };
 
-    var telephoneNumber = (rule, value, callback) => {
+    let telephoneNumber = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号'))
       }else if (this.teleRuleCheck(value)){
-        this.ruleForm.telephone=value
-        callback()
+        let telephoneNum=value
+        getRequest("/user/telephoneCheck",{telephoneNum}).then((res)=>{
+          if (res.data.status==="fail"){
+            this.ruleForm.telephone=value
+            callback()
+          }else {
+            callback(new Error("该手机号码已经注册"))
+          }
+        })
       } else {
         callback(new Error('请输入正确手机号'))
       }
-    }
+    };
 
-    var idCard = (rule, value, callback) => {
-      let _this=this
+    let idCard = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入身份证号码'))
       } else if (this.idCardRuleCheck(value)) {
         this.ruleForm.idCard=value
-        getRequest("/adminInfo").then((res)=>{
-          this.adminALLInfo= res.data
+        let idCard=value;
+        getRequest("/user/idCardCheck",{idCard}).then((res)=>{
+          if (res.data.status==="success"){
+            callback(new Error("该身份证号已经注册"))
+          }else {
+            this.IdCard=value
+            callback()
+          }
         })
-        callback()
       } else {
         callback(new Error('身份证格式不对'))
       }
-    }
+    };
 
-    var address = (rule, value, callback) => {
+    let address = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入你的地址'))
       } else if (this.addressCheck(value)) {
         this.ruleForm.address=value
         callback()
       } else {
-        callback(new Error('地址中含有非法字符'))
+        callback(new Error('正确地址格式:陕西省XXXXXXXX'))
       }
-    }
+    };
 
-    var checkAge = (rule, value, callback) => {
+
+
+    let checkAge = (rule, value, callback) => {
       if (value=== '') {
         return callback(new Error('年龄不能为空'))
       }else if (value<1){
@@ -212,11 +227,15 @@ export default {
         this.ruleForm.age=value
         callback();
       }
-    }
+    };
+
 
 
     return {
-      adminALLInfo:'',
+      adminALLInfo:{
+        admin_id:'',
+        admin_name:''
+      },
       ruleForm: {
         userId: "",
         age: 0,
@@ -235,22 +254,29 @@ export default {
         age: [{ validator: checkAge, trigger: 'blur' }],
         idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
         address: [{ required:true,validator: address, trigger: 'blur' }],
+        idCardAdmin:[{required:true}]
       },
     };
   },
-
+  mounted() {
+    let _this=this
+    getRequest('/admin/selectAdminInfo').then((res)=>{
+      _this.adminALLInfo = res.data
+    })
+  },
   methods: {
     submitForm(formName) {
       const _this=this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-         postRequest("/register",_this.ruleForm).then((res)=>{
+         postRequest("/user/register",_this.ruleForm).then((res)=>{
            console.log(res.data)
          })
           this.$message({
             type: "success",
             message: "注册成功",
           });
+         router.replace('/login')
         } else {
 
           ElMessage({
@@ -261,9 +287,11 @@ export default {
         }
       });
     },
+
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
     //校验手机号
     teleRuleCheck(stringber) {
       var pattern = /^1[34578]\d{9}$/;
@@ -274,6 +302,7 @@ export default {
         return false;
       }
     },
+
     //校验密码强度
     passCheck(pass) {
       let partten = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8,20}$/;
@@ -283,6 +312,7 @@ export default {
         return false;
       }
     },
+
     //检测用户名合法度
     usernameCheck(string){
       let userNamePattern = /^[\u4e00-\u9fa5a-zA-Z0-9_-]{2,8}$/;
@@ -291,8 +321,8 @@ export default {
       }else {
         return false
       }
-    }
-    ,
+    },
+
     email_blur(string) {
       var verify = /^[1-9][0-9]{4,10}@qq.com$/;
       if (verify.test(string)) {
@@ -301,6 +331,7 @@ export default {
         return false;
       }
     },
+
     idCardRuleCheck(string) {
       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
       if(reg.test(string) === false) {
@@ -311,7 +342,7 @@ export default {
     },
     //校验地址
     addressCheck(pass) {
-      let userNamePattern = /^[\u4e00-\u9fa5a-zA-Z0-9_-]{1,30}$/;
+      let userNamePattern = /^[\u4e00-\u9fa5]{3,30}[a-zA-Z\u4e00-\u9fa50-9]{0,30}$/;
       if (userNamePattern.test(pass)){
         return true;
       }else {

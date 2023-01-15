@@ -52,19 +52,19 @@ const router = createRouter({
 
     },
     {
-      path: "/goods",
-      name: 'goods',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/PointsGoods.vue'),
+      path: "/PersonalPage",
+      name: 'PersonalPage',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalPage.vue'),
       children: [
         {
           path: '/cPasswd_p',
           name:'cPasswd_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/personalPage/changePasswd.vue'),
+          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/changePasswd.vue'),
         },
         {
           path: '/cInfo_p',
           name:'cInfo_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/personalPage/changeInfo.vue'),
+          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/changeInfo.vue'),
         }]
     },
     {
@@ -91,14 +91,9 @@ const router = createRouter({
     },
     {
       path: "/loginOut",
-      name: 'error',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/LoginOut.vue')
+      name: 'loginOut',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/components/Login/LoginOut.vue')
     },
-    {
-      path: "/personal",//拦截
-      name: 'personal',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/components/personalPage/personal.vue')
-    }
   ]
 })
 
@@ -106,12 +101,22 @@ const router = createRouter({
 // 注册一个全局前置守卫
 router.beforeEach((to, from, next) => {
     //判断当前路由是否需要进行权限控制
-  if (to.path==='/login'||to.path==='/'||to.path==='/register'||to.path==='/guide'||to.path==='/forgetPwd'||to.path===''){
+  if (to.path==='/login'||to.path==='/'||to.path==='/register'||to.path==='/guide'||to.path==='/forgetPwd'||to.path==='/freeze'||to.path==="/loginOut"){
     return next()
   }else {
-    if(localStorage.getItem('VolunteerToken') === null) {
-      alert("访问出错!!!")
-      next({path:'/'})
+    if (to.path==='/PersonalPage'||to.path==="/cPasswd_p"||to.path==="/cInfo_p"){
+      if(localStorage.getItem('VolunteerToken') === null) {
+        alert("登录先!!!")
+        next('/login')
+        setTimeout(()=>{
+          location.reload()
+        },100)
+      }else {
+        next()
+      }
+    }else {
+      alert("访问权限不够或访问路径不存在！！将返回首页")
+      next('/')
     }
   }
 })

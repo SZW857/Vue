@@ -37,13 +37,19 @@
 
 <script>
 import {ElMessage} from "element-plus";
-
+import {getRequest, postRequest } from '@/Api_Axios/config.js'
+import router from "@/router";
 export default {
+  mounted() {
+    let _this=this
+    const a=JSON.parse(window.localStorage.getItem("VolunteerToken"));
+    _this.params.userId=a.extra
+    _this.params.token=a.data
+  },
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
-        console.log(value)
       }else{
         if (this.passwdCheck(value)) {
           this.$refs.ruleForm.validateField('confirmPass')
@@ -55,16 +61,23 @@ export default {
         }
       }
     }
-    var validatePass2 = (rule, value, callback) => {
+    let validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
+        this.params.passwd=value
         callback()
       }
     }
     return {
+
+      params:{
+        userId:'',
+        passwd:'',
+        token:'',
+      },
       ruleForm: {
         pass: '',
         confirmPass: '',
@@ -86,16 +99,35 @@ export default {
       }
     },
     submitForm(formName) {
+      let _this=this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          ElMessage({
-            message: '提交成功',
-            grouping:true,
-            type: 'success',
+          postRequest("/user/changePasswd_P",_this.params).then((res)=>{
+            if (res.data.status==="success"){
+                setTimeout(()=>{
+                  window.location.reload()
+                  alert("密码修改成功")
+
+                },300)
+              window.localStorage.removeItem("VolunteerToken")
+              router.replace("/login")
+              console.log(res.data)
+              console.log(_this.params.token)
+            }else {
+              ElMessage({
+                message: '密码修改失败,请重新登录后操作!',
+                grouping:true,
+                type: 'error',
+              })
+              setTimeout(()=>{
+                window.localStorage.removeItem("VolunteerToken")
+                router.replace('/login')
+              },500)
+            }
           })
         } else {
           ElMessage({
-            message: '提交失败',
+            message: '提交失败，请先完成重置密码!',
             grouping:true,
             type: 'error',
           })

@@ -34,7 +34,10 @@
     </el-aside>
 
     <el-container>
-      <el-header style="">
+      <el-header>
+        <div style="color: #d23243">
+        <h3>站内消息</h3>
+        </div>
       </el-header>
       <el-main style="background-color: #77b093">
         <div>

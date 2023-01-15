@@ -148,7 +148,7 @@
 <script>
 import {ElMessage, ElMessageBox} from 'element-plus'
 import SIdentify from '@/components/VerifyCode/identify'
-import {getRequest, postRequest } from '@/api/config.js'
+import {getRequest, postRequest } from '@/Api_Axios/config.js'
 import {CaptchaEncryption} from '@/static/js/CaptchaEncryption.js'
 import router from "@/router";
 export default {
@@ -184,7 +184,8 @@ export default {
       } else if (!this.idCardRuleCheck(value)) {
         callback(new Error('身份证格式不对'))
       }else {
-        getRequest("/idcardcheck/"+value).then((res)=>{
+        let idCard=value;
+        getRequest("/user/idCardCheck",{idCard}).then((res)=>{
           if (res.data.status==="fail"){
             callback(new Error("请先通过注册"))
           }else {
@@ -240,6 +241,9 @@ export default {
         confirmPass: '',
         feedbackCode:''
       },
+      headers:{
+        token:''
+      },
       para:{
         telephone:"",
         falseCode:""
@@ -270,7 +274,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if(this.active++>3) this.active=0
-
         } else {
           ElMessage({
             message: '完善信息方可进入下一步',
@@ -290,7 +293,8 @@ export default {
         }else{
           const code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
           this.valueCode=code
-           postRequest("/user/sendMessage", {falseCode:_this.para.falseCode=CaptchaEncryption(code),telephoneNum:_this.para.telephone=this.ruleForm.telephoneNumber})
+          alert(this.valueCode)
+           getRequest("/user/sendMessage", {falseCode:_this.para.falseCode=CaptchaEncryption(code),telephoneNum:_this.para.telephone=this.ruleForm.telephoneNumber})
           if (this.canClick) return
           this.canClick = true
           this.content = this.totalTime + 's后重新发送'
@@ -324,7 +328,7 @@ export default {
           let confirmPass=_this.ruleForm.confirmPass
           let idCard=_this.ruleForm.idCard
           let valueCode=_this.valueCode
-          postRequest('/user/changPasswd',{idCard:idCard,passwd:confirmPass,valueCode:valueCode})
+          postRequest('/user/changPasswd_F',{idCard:idCard,passwd:confirmPass,valueCode:valueCode})
             _this.active++
           open()
         } else {
@@ -383,6 +387,7 @@ export default {
     // 验证码初始化
     this.identifyCode = ''
     this.makeCode(this.identifyCodes, 4)
+    // 获取token
   },
 }
 const open = () => {
