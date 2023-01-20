@@ -56,6 +56,18 @@
       ></el-input>
     </el-form-item>
 
+    <el-form-item label="QQ邮箱" prop="email">
+      <el-input
+          :maxlength="18"
+          type="text"
+          v-model="ruleForm.email"
+          autocomplete="off"
+          prefix-icon="Message"
+          class="el-input"
+          placeholder="请输入你的邮箱地址"
+      ></el-input>
+    </el-form-item>
+
     <el-form-item label="身份证号" prop="idCard">
       <el-input
           :maxlength="18"
@@ -186,6 +198,24 @@ export default {
       }
     };
 
+    let email = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入邮箱地址'))
+      } else if (this.email_blur(value)) {
+        let email=value
+        getRequest("/user/emailCheck",{email}).then((res)=>{
+          if (res.data.status==="fail"){
+            this.ruleForm.email=value
+            callback()
+          }else {
+            callback(new Error("该手机邮箱已经注册"))
+          }
+        })
+      } else {
+        callback(new Error('请输入正确邮箱地址'))
+      }
+    };
+
     let idCard = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入身份证号码'))
@@ -216,8 +246,6 @@ export default {
       }
     };
 
-
-
     let checkAge = (rule, value, callback) => {
       if (value=== '') {
         return callback(new Error('年龄不能为空'))
@@ -228,8 +256,6 @@ export default {
         callback();
       }
     };
-
-
 
     return {
       adminALLInfo:{
@@ -244,6 +270,7 @@ export default {
         telephone:'',
         address:"",
         sex:"",
+        email:'',
         idCardAdmin:'',
       },
       rules: {
@@ -254,6 +281,7 @@ export default {
         age: [{ validator: checkAge, trigger: 'blur' }],
         idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
         address: [{ required:true,validator: address, trigger: 'blur' }],
+        email:[{required:true,validator:email,trigger:'blur'}],
         idCardAdmin:[{required:true}]
       },
     };
@@ -269,7 +297,7 @@ export default {
       const _this=this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-         postRequest("/user/register",_this.ruleForm).then((res)=>{
+         postRequest("/user/register", _this.ruleForm).then((res)=>{
            console.log(res.data)
          })
           this.$message({
@@ -323,6 +351,7 @@ export default {
       }
     },
 
+    //校验QQ邮箱
     email_blur(string) {
       var verify = /^[1-9][0-9]{4,10}@qq.com$/;
       if (verify.test(string)) {
@@ -332,6 +361,7 @@ export default {
       }
     },
 
+    //校验身份证号
     idCardRuleCheck(string) {
       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
       if(reg.test(string) === false) {
@@ -340,6 +370,7 @@ export default {
         return true;
       }
     },
+
     //校验地址
     addressCheck(pass) {
       let userNamePattern = /^[\u4e00-\u9fa5]{3,30}[a-zA-Z\u4e00-\u9fa50-9]{0,30}$/;

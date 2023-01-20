@@ -7,12 +7,12 @@ h2{
 }
 .section{
     width: 1490px;
-    background-image: url("@/static/picture/banner.png");
+    background-image: url("../../static/picture/banner.png");
 }
 .category{
 
     width: 1000px;
-    background-image: url("@/static/picture/banner.png");
+    background-image: url("../../static/picture/banner.png");
     margin-left:280px;
 
 }

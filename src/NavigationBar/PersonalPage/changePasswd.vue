@@ -37,7 +37,7 @@
 
 <script>
 import {ElMessage} from "element-plus";
-import {getRequest, postRequest } from '@/Api_Axios/config.js'
+import { postRequest } from '@/Api_Axios/config.js'
 import router from "@/router";
 export default {
   mounted() {
@@ -102,7 +102,7 @@ export default {
       let _this=this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          postRequest("/user/changePasswd_P",_this.params).then((res)=>{
+          postRequest("/user/changePasswd_P", _this.params).then((res)=>{
             if (res.data.status==="success"){
                 setTimeout(()=>{
                   window.location.reload()

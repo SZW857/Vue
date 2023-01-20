@@ -7,16 +7,16 @@
           background-color="#E1E6F0"
           class="el-menu-vertical-demo"
           mode="vertical"
-          default-openeds="['0','2']"
+          default-openeds=[0,2]
           :router="true"
       >
         <el-sub-menu index="0">
           <template #title>
-            <el-icon><user /></el-icon>个人信息
+            <el-icon><user/></el-icon>志愿者信息
           </template>
-          <el-menu-item-group>
+          <el-menu-item-group >
+            <el-menu-item index="/cInfo_p">个人资料</el-menu-item>
             <el-menu-item index="/cPasswd_p">修改密码</el-menu-item>
-            <el-menu-item index="/cInfo_p">修改个人资料</el-menu-item>
           </el-menu-item-group>
 
         </el-sub-menu>
@@ -49,14 +49,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Menu as IconMenu, Message } from '@element-plus/icons-vue'
+import { Menu as IconMenu } from '@element-plus/icons-vue'
 import {User} from "@element-plus/icons";
 </script>
 
 <style scoped>
 .layout-container-demo .el-header {
   position: relative;
-  background-color: var(--el-color-primary-light-7);
+  background-color: var(--el-color-primary-light-8);
   color: var(--el-text-color-primary);
 }
 .layout-container-demo .el-aside {
@@ -69,7 +69,7 @@ import {User} from "@element-plus/icons";
 .layout-container-demo .el-main {
   padding: 0;
 }
-.layout-container-demo .toolbar {
+.layout-container-demo {
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -13,6 +13,8 @@
     "core-js": "^3.8.3",
     "element-plus": "^2.2.20",
     "js-base64": "^3.7.4",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.40",
     "node-sass": "^8.0.0",
     "path-browserify": "^1.0.1",
     "style-loader": "^3.3.1",

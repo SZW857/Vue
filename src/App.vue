@@ -2,13 +2,15 @@
   <div class="index_container" :style="{'width': `${searchWidth}px`}">
     <div class="header">
       <div id="header_img">
-        <img src="@/static/picture/5151.png">
+        <img src="@/static/picture/5151.png" alt="主页图">
       </div>
       <div id="header_nav" >
         <div style="color: #67da25">
-               <div  v-show="!show">
-                欢迎登录:{{this.VOLUNTEER.extra}}&emsp;
-                <el-button type="danger" v-show="true" @click="loginOut">安全退出</el-button>
+               <div v-show="!show_V">
+                 <span>志愿者:{{this.TOKENS.V_TOKEN_NAME}}&emsp; <el-button type="danger" v-show="true" @click="loginOut">安全退出</el-button></span>
+               </div>
+               <div v-show="!show_M">
+                 <span>管理员:{{this.TOKENS.M_TOKEN_NAME}}&emsp; <el-button type="danger" v-show="true" @click="loginOut_A">安全退出</el-button></span>
                </div>
         </div>
         <div>
@@ -29,13 +31,13 @@
           router
       >
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
-        <el-menu-item index="/projects" >志愿活动</el-menu-item>
+        <el-menu-item index="/Volunteering" >志愿活动</el-menu-item>
         <el-menu-item index="/honor" >荣誉榜</el-menu-item>
         <el-menu-item index="/video">社区公益推广</el-menu-item>
-        <el-menu-item index="/news">社区要闻</el-menu-item>
+        <el-menu-item index="/news">社区新闻</el-menu-item>
         <el-menu-item index="/freeze">不动</el-menu-item>
-        <el-menu-item index="/PersonalPage">个人页面</el-menu-item>
-        <el-menu-item index="/admin">后台管理入口</el-menu-item>
+        <el-menu-item index="/PersonalPage">志愿者个人页</el-menu-item>
+        <el-menu-item index="/AdminPage">后台管理入口</el-menu-item>
       </el-menu>
     </div>
 
@@ -57,7 +59,6 @@
         电邮：751225241@qq.com<br/>
         地址：西红市土豆区红薯街万事诸顺中心A座1234<br/>
       </div>
-
       <div id="el_footer_bottom" :style="{'width': `${searchWidth}px`}">
         ©好公益平台 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：计算机学院所有老师
       </div>
@@ -66,12 +67,18 @@
 </template>
 <style src="@/static/css/App.css" scoped/>
 <script>
+import { ref,reactive} from "vue";
 export default {
   data() {
     return {
       searchWidth: 0,
       show:true,
-      VOLUNTEER:{}
+      show_M:true,
+      show_V:true,
+      TOKENS:reactive({
+        V_TOKEN_NAME: ref(''),
+        M_TOKEN_NAME: ref('')
+      })
     }
   },
   mounted() {
@@ -87,15 +94,41 @@ export default {
       }
     }
     let _this=this
-    let V_TOKEN=JSON.parse(window.localStorage.getItem("VolunteerToken"));
-    if (V_TOKEN!==null){
-      _this.VOLUNTEER=V_TOKEN;
-      _this.show=false
+    let V_TOKEN=JSON.parse(window.localStorage.getItem("VolunteerToken"))
+    let M_TOKEN=JSON.parse(window.localStorage.getItem("AdminToken"));
+    // console.log(V_TOKEN)
+    // console.log(M_TOKEN)
+    if (V_TOKEN!==null || M_TOKEN!==null){
+      if (V_TOKEN!==null){
+        //志愿者登录
+        // console.log('志愿者'+V_TOKEN)
+        _this.show=false;
+        _this.show_V=false;
+        _this.show_M=true;
+        this.TOKENS.V_TOKEN_NAME=V_TOKEN.extra;
+      }else {
+        //管理员登录
+        // console.log('管理员'+M_TOKEN)
+        _this.show=false;
+        _this.show_V=true
+        _this.show_M=false;
+        this.TOKENS.M_TOKEN_NAME=M_TOKEN.extra;
+      }
+    }else {
+      //没有token
+      console.log("未检索到TOKEN,页面初始化加载完毕。")
+      _this.show=true
+      _this.show_M=true
+      _this.show_V=true
     }
   },
   methods:{
     loginOut(){
       window.localStorage.removeItem("VolunteerToken");
+      window.location.replace("/loginOut")
+    },
+    loginOut_A(){
+      window.localStorage.removeItem("AdminToken");
       window.location.replace("/loginOut")
     }
   }

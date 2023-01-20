@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../NavigationBar/HomeView.vue'
+import HomeView from '../NavigationBar/Index/HomeView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -12,33 +13,37 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Login.vue')
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Login/Login.vue')
     },
     {
       path: "/register",
       name: "register",
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Register.vue')
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Register/Register.vue')
     },
     {
       path: "/guide",
       name: "guide",
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/UsageGuide.vue'),
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Advocacy/用户手册.vue'),
     },
-
     {
-      path: '/forgetPwd',
-      name:'forgetPwd',
+      path: '/forgetPwd_p',
+      name:'forgetPwd_p',
       component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/ForgetPwd/ForgotPwdTemplate.vue')
+    },
+    {
+      path: '/forgetPwd_a',
+      name:'forgetPwd_a',
+      component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/adminForgetPwd/ForgotPwdTemplateAdmin.vue')
     },
     {
       path: "/video",
       name: "video",
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/PlantfromIntroduct.vue')
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Advocacy/propaganda.vue')
     },
     {
-      path: "/projects",
-      name: "projects",
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/VolunteerProjects.vue')
+      path: "/Volunteering",
+      name: "Volunteering",
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Volunteering/Volunteering.vue')
     },
     {
       path: "/freeze",
@@ -48,51 +53,78 @@ const router = createRouter({
     {
       path: "/news",
       name: "news",
-      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/CommunityNews.vue'),
-
+      component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/News/CommunityNews.vue'),
     },
     {
       path: "/PersonalPage",
       name: 'PersonalPage',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalPage.vue'),
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/PersonalPage/PersonalPage.vue'),
       children: [
         {
           path: '/cPasswd_p',
           name:'cPasswd_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/changePasswd.vue'),
+          component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/PersonalPage/changePasswd.vue'),
         },
         {
           path: '/cInfo_p',
           name:'cInfo_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/changeInfo.vue'),
-        }]
-    },
-    {
-      path: "/admin",
-      name: 'admin',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Admin.vue'),
-      children: [
-        {
-          path: '/cPasswd_a',//*
-          name:'cPasswd_a',
-          component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changePasswd.vue'),
+          component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/PersonalPage/changeInfo.vue'),
+          children: [
+            {
+              path:"/cTelephone",
+              name:'/cTelephone',
+              component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/PersonalPage/changTelephone/cTelephone.vue'),
+            },
+            {
+              path:"/cEmail",
+              name:'/cEmail',
+              component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/PersonalPage/changeEmail/cEmail.vue'),
+            }
+          ]
         },
-        {
-          path: '/cInfo_a',//*
-          name:'cInfo_a',
-          component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changInfo.vue'),
-        }
       ]
     },
     {
+      path: "/Login_A",
+      name: 'Login_A',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/AdminEntrance/loginA.vue'),
+    },
+    {
+      path: '/AdminPage',
+      name: 'AdminPage',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/AdminEntrance/AdminPage.vue'),
+      children:[
+        {
+              path: '/cPasswd_a',//*
+              name:'cPasswd_a',
+              component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changePasswd.vue'),
+        },
+        {
+              path: '/cInfo_a',//*
+              name:'cInfo_a',
+              component: ()=> import(/* webpackChunkName: "about" */ '@/components/adminPage/changInfo.vue'),
+            },
+            {
+              path: '/PublishNews',//*
+              name: 'PublishNews',
+              component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/AdminEntrance/PublishNews.vue'),
+            },
+            {
+              path: '/RegisterVerify',//*
+              name: 'RegisterVerify',
+              component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/AdminEntrance/RegisterVerify.vue'),
+            },
+          ]
+        },
+    {
       path: "/honor",
       name: 'honor',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/HonorRoll.vue')
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/HonorRoll/HonorRoll.vue')
     },
     {
       path: "/loginOut",
       name: 'loginOut',
-      component: ()=> import(/* webpackChunkName: "about" */ '@/components/Login/LoginOut.vue')
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Login/LoginOut.vue')
     },
   ]
 })
@@ -100,17 +132,27 @@ const router = createRouter({
 
 // 注册一个全局前置守卫
 router.beforeEach((to, from, next) => {
-    //判断当前路由是否需要进行权限控制
-  if (to.path==='/login'||to.path==='/'||to.path==='/register'||to.path==='/guide'||to.path==='/forgetPwd'||to.path==='/freeze'||to.path==="/loginOut"){
+    //不进行权限控制
+  if (to.path==='/'||to.path==='/login'||to.path==='/register'||
+      to.path==="/freeze"||to.path==='/forgetPwd_p'||to.path==='/loginOut'||
+      to.path==='/guide'||to.path==='/Volunteering'||to.path==='/news'||
+      to.path==='/admin'||to.path==='/PublishNews'||to.path==='/RegisterVerify'||
+      //管理员部分
+      to.path==='/login_A'||to.path==='/forgetPwd_a'){
     return next()
   }else {
-    if (to.path==='/PersonalPage'||to.path==="/cPasswd_p"||to.path==="/cInfo_p"){
+    //进行拦截
+    if (to.path==='/PersonalPage'||to.path==="/cPasswd_p"||to.path==="/cInfo_p"||
+        to.path==='/cTelephone'||to.path==='/cEmail'){
       if(localStorage.getItem('VolunteerToken') === null) {
-        alert("登录先!!!")
         next('/login')
-        setTimeout(()=>{
-          location.reload()
-        },100)
+      }else {
+        next()
+      }
+      //管理员部分
+    }else if (to.path==='/AdminPage'||to.path==='/PublishNews'||to.path==='/RegisterVerify'){
+      if(localStorage.getItem('AdminToken') === null) {
+        next('/login_A')
       }else {
         next()
       }
@@ -120,6 +162,7 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
+
 
 
 export default router;

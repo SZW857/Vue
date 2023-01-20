@@ -18,7 +18,6 @@
       >
         <el-form-item  prop="userId" >
           <el-input
-
               :maxlength="11"
               style="width: 350px"
               placeholder="请输入用户名"
@@ -46,7 +45,7 @@
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
-         <p style="margin-left: 200px"><el-link href="/forgetPwd">忘记密码？</el-link></p>
+         <p style="margin-left: 200px"><el-link href="/forgetPwd_p">忘记密码？</el-link></p>
        </div>
     </div>
     </el-main>
@@ -56,8 +55,8 @@
 </template>
 
 <script>
-import {getRequest, postRequest,getRest} from "@/Api_Axios/config";
-import router from '@/router/index.js'
+import {getRequest} from "@/Api_Axios/config";
+import router from '@/router'
 import {ElMessage} from "element-plus";
 import { ref } from 'vue'
 export default {
@@ -107,6 +106,7 @@ export default {
         if (valid) {
           _this.loading=true
           setTimeout(()=>{
+            window.localStorage.removeItem('AdminToken')
           getRequest('/user/login',_this.ruleForm).then((res)=>{
             //将token存入本地浏览器中
               if (res.data.status === "success") {
@@ -150,4 +150,4 @@ export default {
 
 </script>
 
-<style src="@/static/css/Login.css" scoped/>
+<style src="../../static/css/Login.css" scoped/>

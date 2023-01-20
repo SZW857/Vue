@@ -5,11 +5,8 @@
         <el-menu
             active-text-color="#3E82FF"
             background-color="#E1E6F0"
-            default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            router
+            :router="true"
         >
           <el-sub-menu index="1">
             <template #title>
@@ -40,7 +37,7 @@
               <el-menu-item index="2-1">活动报名招募</el-menu-item>
               <el-menu-item index="2-2">志愿者签到统计</el-menu-item>
               <el-menu-item index="2-3">志愿者求助审核</el-menu-item>
-              <el-menu-item index="2-4">志愿者注册审核</el-menu-item>
+              <el-menu-item index="/RegisterVerify">志愿者注册审核</el-menu-item>
             </el-menu-item-group>
 
 
@@ -50,7 +47,7 @@
               <el-icon><message /></el-icon>社区信息
             </template>
             <el-menu-item-group>
-              <el-menu-item index="4-1">社区要闻发布</el-menu-item>
+              <el-menu-item index="/PublishNews">社区要闻发布</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -59,25 +56,9 @@
 
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
-        <div class="toolbar">
-          <el-button type="primary">前台首页</el-button>
-          <el-button type="danger">安全退出</el-button>&emsp;
-          欢迎登陆:
-          <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-            ><setting
-            /></el-icon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>View</el-dropdown-item>
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>jerry</span>
-        </div>
+        <p  >欢迎来到社区公益服务系统</p>
       </el-header>
+
       <el-mains style="background-color: #77b093">
         <div>
           <router-view></router-view>
@@ -88,11 +69,9 @@
 </template>
 
 <script lang="ts" setup>
-
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { Menu as IconMenu, Message, } from '@element-plus/icons-vue'
 import { reactive,ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -178,9 +157,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 
 const num = ref(1)
-const handleChange = (value: number) => {
 
-}
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -201,10 +178,14 @@ const item = {
 const tableData = ref(Array.from({ length: 20 }).fill(item))
 </script>
 
+<script>
+
+</script>
+
 <style scoped>
 .layout-container-demo .el-header {
   position: relative;
-  background-color: var(--el-color-primary-light-7);
+  background-color: var(--el-color-primary-light-8);
   color: var(--el-text-color-primary);
 }
 .layout-container-demo .el-aside {
@@ -217,15 +198,18 @@ const tableData = ref(Array.from({ length: 20 }).fill(item))
 .layout-container-demo .el-main {
   padding: 0;
 }
-.layout-container-demo .toolbar {
+.layout-container-demo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   right: 20px;
+}
+p{
+color: #d23243;
+text-align: center;
+font-size: 22px;
+font-weight: bold;
+}
 
-}
-.toolbar{
-  font-size: 16px;
-}
 </style>

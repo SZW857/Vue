@@ -37,6 +37,7 @@ api.interceptors.response.use((res) => {
     // "401" 即未授权，需要请求要求身份验证
     if (err.message === 'Network Error') {
         alert("请求超时,服务器连接失败!!")
+        window.location.reload();
     }
     //     Toast.fail('请先登录');
     //     router.push({ path: '/login' });

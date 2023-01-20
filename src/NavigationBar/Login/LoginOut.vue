@@ -18,7 +18,9 @@ const open = () => {
     type:'success',
     confirmButtonText: 'OK',
   })
-  window.localStorage.removeItem('VolunteerToken');
-  router.replace("/login")
+  setTimeout(()=>{
+    window.location.reload()
+  },1000)
+  router.push("/")
 }
 </script>

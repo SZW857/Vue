@@ -1,6 +1,6 @@
 
 #register_container {
-    background-image: url("@/static/picture/register.png");
+    background-image: url("../picture/register.png");
 }
 #register_body{
     background: #ffffff;

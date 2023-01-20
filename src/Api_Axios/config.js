@@ -1,6 +1,6 @@
 import api from '@/Axios/index.js'
 
-export const postRequest = (path,param) => {
+export const postRequest = (path, param) => {
     return api({
         url: path,
         method: 'POST',

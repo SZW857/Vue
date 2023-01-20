@@ -9,7 +9,7 @@
       </el-steps>
     </span>
     <div style="height: 500px;background-color: #ffffff;margin-top: 40px" v-if="active===1">
-      <h1>身份证号校验</h1>
+      <h1>志愿者身份证号校验</h1>
       <div>
         <el-form
             :model="ruleForm"
@@ -20,7 +20,7 @@
             label-position="top"
             class="demo-ruleForm"
             style="width: 500px;margin-left: 400px"
-        ><el-form-item label="身份证号:" prop="idCard">
+        ><el-form-item label="志愿者身份证号:" prop="idCard">
           <el-input
               :maxlength="18"
               type="text"
@@ -28,12 +28,11 @@
               autocomplete="off"
               prefix-icon="Memo"
               class="el-input"
-
           ></el-input>
         </el-form-item>
-          <el-form-item label="验证码" prop="verifyCode">
+          <el-form-item label="验证码" prop="VerifyCode">
             <el-input
-                v-model="ruleForm.verifyCode"
+                v-model="ruleForm.VerifyCode"
                 placeholder="请输入验证码"
                 type="text"
                 style="width: 250px"
@@ -42,14 +41,14 @@
           </el-form-item>
           <el-form-item>
             <el-button style="margin-left: 200px;position: absolute" @click="refreshCode" link>看不清？点击刷新</el-button>
-            <el-button @click="prev" v-if="active==2||active==3">上一步</el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')"  v-if="active==1||active==2||active==3" >下一步</el-button>
+            <el-button @click="prev" v-if="active===2||active===3">上一步</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')"  v-if="active===1||active===2||active===3" >下一步</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
-    <div style="height: 600px;background-color: #c5b165;margin-top: 40px" v-if="active===2">
+    <div style="height: 600px;background-color: #ffffff;margin-top: 40px" v-if="active===2">
 
       <h1>请确认您的身份证号:{{IdCard}}</h1>
       <div>
@@ -63,14 +62,14 @@
             class="demo-ruleForm"
             style="width: 500px;margin-left: 300px"
         >
-          <el-form-item label="请输入绑定的手机号:" prop="telephoneNumber">
+          <el-form-item label="请输入绑定的手机号/邮箱:" prop="telephoneNumber">
             <el-input
-                :maxlength="11"
-                type="number"
+
+                type="text"
                 v-model="ruleForm.telephoneNumber"
                 autocomplete="off"
+                :readonly="readable"
                 prefix-icon="Memo"
-                class="telephoneNumAndCode"
             ></el-input>
             <!-- 倒计时按钮 -->
             <el-button @click="sendMsg('ruleForm')" type="primary" :disabled="canClick"  style="position: absolute;margin-left: 520px;" >{{content}}</el-button>
@@ -78,12 +77,13 @@
           <el-form-item label="请输入反馈验证码:" prop="feedbackCode">
             <el-input
                 :maxlength="6"
-                type="number"
+                type="text"
                 v-model="ruleForm.feedbackCode"
                 autocomplete="off"
                 prefix-icon="Memo"
                 class="telephoneNumAndCode"
             ></el-input>
+
           </el-form-item>
           <el-form-item>
             <el-button @click="prev" v-if="active==2||active==3">上一步</el-button>
@@ -136,7 +136,7 @@
       <div class="finish_container">
         <div class="box">
           <div class="content1">
-            <div><img src="@/static/picture/greenRight.png"/><h1>密码修改完成</h1></div>
+            <div><img src="@/static/picture/greenRight.png" alt=""/><h1>密码修改完成</h1></div>
           </div>
         </div>
       </div>
@@ -149,13 +149,14 @@
 import {ElMessage, ElMessageBox} from 'element-plus'
 import SIdentify from '@/components/VerifyCode/identify'
 import {getRequest, postRequest } from '@/Api_Axios/config.js'
-import {CaptchaEncryption} from '@/static/js/CaptchaEncryption.js'
+
+import { Base64 } from "js-base64";
 import router from "@/router";
 export default {
   name:'ForgotPwdTemplate',
   components: {SIdentify},
   data() {
-    const validateVerifycode = (rule, value, callback) => {
+    const VerifyCode = (rule, value, callback) => {
       const newVal = this.identifyCode.toUpperCase()
       const identifyStr = this.identifyCode.toLowerCase()
       if (value === '')  {
@@ -165,17 +166,23 @@ export default {
       }else if (value === newVal){
         callback()
       }else {
-        console.log('verifyCode:', value)
+        console.log('VerifyCode:', value)
         callback(new Error('验证码不正确!'))
       }
     }
     const telephoneNumber = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号'))
-      }else if (this.teleRuleCheck(value)){
+      }else if (!this.teleRuleCheck(value)){
+        if (this.emailCheck(value)){
+          this.params.email=value
+          callback()
+        }else {
+          callback("请输入正确的邮箱或手机号");
+        }
+      }else{
+        this.params.telephone=value
         callback()
-      } else {
-        callback("手机格式不正确");
       }
     }
     const idCard = (rule, value, callback) => {
@@ -215,6 +222,7 @@ export default {
       } else if (value !== this.ruleForm.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
+
         callback()
       }
     }
@@ -230,44 +238,37 @@ export default {
     }
 
     return {
-      active:1,
+      active:2,
       identifyCodes: 'ABCDEFGHGKMNPQRSTUVWXY',
       identifyCode: '',
       ruleForm: {
         telephoneNumber: '',
         idCard: '',
-        verifyCode: '',
+        VerifyCode: '',
         pass:'',
         confirmPass: '',
-        feedbackCode:''
+        feedbackCode:'',
+        readable:false
       },
-      headers:{
-        token:''
-      },
-      para:{
+      params:{
+        email:"",
         telephone:"",
-        falseCode:""
       },
       content: '发送短信',
       totalTime: 5,
       canClick: false,
       valueCode: 1,
       IdCard:'',
-      sendTele:'',
-
       rules: {
         telephoneNumber: [{ required:true,validator: telephoneNumber, trigger: 'blur' }],
         idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
         pass: [{ required:true,validator: validatePass, trigger: 'blur' }],
         confirmPass: [{ required:true,validator: validatePass2, trigger: 'blur' }],
-        verifyCode: [{required: true, validator: validateVerifycode,trigger: 'blur' }],
+        VerifyCode: [{required: true, validator: VerifyCode,trigger: 'blur' }],
         feedbackCode:[{required:true,validator:feedbackCode,trigger:'blur'}]
       },
     }
-
-
   },
-
   methods: {
     //提交表单的验证
     submitForm(formName) {
@@ -285,29 +286,64 @@ export default {
     },
     //发送短信
     sendMsg(formName) {
-      let _this=this
       // form为表单名字并ref="form"; prop 换成你想监听的prop字段
       this.$refs[formName].validateField('telephoneNumber', (errMsg) => {
         if (!errMsg) {
-          alert('请通过手机格式验证!')
+          alert('请先通过手机或邮箱格式验证!')
         }else{
-          const code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
-          this.valueCode=code
-          alert(this.valueCode)
-           getRequest("/user/sendMessage", {falseCode:_this.para.falseCode=CaptchaEncryption(code),telephoneNum:_this.para.telephone=this.ruleForm.telephoneNumber})
-          if (this.canClick) return
-          this.canClick = true
-          this.content = this.totalTime + 's后重新发送'
-          let clock = window.setInterval(() => {
+          //邮箱
+
+          if(this.params.email!==''&& this.params.telephone===''){
+            let _this=this
+            let code=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
+            _this.valueCode=0
+            _this.valueCode=code
+            alert("real:"+this.valueCode)
+            //1.准备数据
+            let falseCode=Base64.encode(code)
+            let Email=this.params.email
+            //2.发送邮件
+            getRequest("/sendEmail",{falseCode:falseCode,email: Email})
+            if (this.canClick) return
+            this.canClick = true
+            this.content = this.totalTime + 's后重新发送'
+            let clock = window.setInterval(() => {
+              this.totalTime--
+              this.content = this.totalTime + 's后重新发送'
+              if (this.totalTime < 0) {
+                this.valueCode=0
+                window.clearInterval(clock)
+                this.content = '重新发送短信'
+                this.totalTime = 5
+                this.canClick = false
+              }
+            }, 1000)
+         //手机号
+          }else {
+            let code2=Math.random().toFixed(6).slice(-6) // 随机生成六位数验证码
+            this.valueCode=0
+            this.valueCode=code2
+            alert('real:'+this.valueCode)
+            //1.准备数据
+            let telephone=this.params.telephone
+            let falseCode=Base64.encode(code2)
+            //2.发送
+            getRequest("/sendMessage", {telephone: telephone,falseCode:falseCode})
+            if (this.canClick) return
+            this.canClick = true
+            this.content = this.totalTime + 's后重新发送'
+            let clock = window.setInterval(() => {
             this.totalTime--
             this.content = this.totalTime + 's后重新发送'
             if (this.totalTime < 0) {
+              this.valueCode=0
               window.clearInterval(clock)
               this.content = '重新发送短信'
-              this.totalTime = 10
+              this.totalTime = 5
               this.canClick = false
             }
           }, 1000)
+         }
         }
       })
     },
@@ -328,8 +364,8 @@ export default {
           let confirmPass=_this.ruleForm.confirmPass
           let idCard=_this.ruleForm.idCard
           let valueCode=_this.valueCode
-          postRequest('/user/changPasswd_F',{idCard:idCard,passwd:confirmPass,valueCode:valueCode})
-            _this.active++
+          postRequest('/user/changPasswd_F', {idCard: idCard, passwd: confirmPass, valueCode: valueCode})
+          _this.active++
           open()
         } else {
           alert('请输入正确的密码')
@@ -342,10 +378,17 @@ export default {
       if (pattern.test(stringber)) {
         return true;
       }else {
-        console.log('check mobile phone ' + stringber + ' failed.');
         return false;
       }
-
+    },
+    //qq邮箱验证
+    emailCheck(string) {
+      let verify = /^[1-9][0-9]{4,10}@qq.com$/;
+      if (verify.test(string)) {
+        return true;
+      } else {
+        return false;
+      }
     },
     //身份证规则校验
     idCardRuleCheck(string) {
@@ -387,7 +430,6 @@ export default {
     // 验证码初始化
     this.identifyCode = ''
     this.makeCode(this.identifyCodes, 4)
-    // 获取token
   },
 }
 const open = () => {
@@ -396,7 +438,7 @@ const open = () => {
     confirmButtonText: 'OK',
   })
   setTimeout(()=>{
-    router.replace("/login")
+    router.replace("/")
   },5000)
 
 }
@@ -408,22 +450,6 @@ const open = () => {
 
 <style scoped>
 
-/deep/  .telephoneNumAndCode input::-webkit-outer-spin-button,
-/deep/  .telephoneNumAndCode input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-/deep/  .telephoneNumAndCode input[type="number"]{
-  -moz-appearance: textfield;
-}
-
-/deep/  .telephoneNumAndCode inpit{
-  border: none
-}
-
-.codeGeting{
-  background: #cdcdcd;
-  border-color: #cdcdcd;
-}
 .el-input{
   height: 43px;
 }

@@ -1,35 +1,19 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    <el-switch-->
-<!--        v-model="value"-->
-<!--        active-value="1"-->
-<!--        inactive-value="0"-->
-<!--        @change='changeStatus'-->
-<!--        active-color="#13ce66"-->
-<!--        inactive-color="#ff4949">-->
+<template>
+  <div>
+    <span>What you are you do not see, what you see is your shadow. </span>
+    <el-divider content-position="left">Rabindranath Tagore</el-divider>
+    <span
+    >My wishes are fools, they shout across thy song, my Master. Let me but
+      listen.</span
+    >
+    <el-divider>
+      <el-icon><star-filled /></el-icon>
+    </el-divider>
+    <span>I cannot choose the best. The best chooses me.</span>
+    <el-divider content-position="right">Rabindranath Tagore</el-divider>
+  </div>
+</template>
 
-<!--    </el-switch>-->
-<!--  </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: "home",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      value:"1"-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    //该参数为当前的value值-->
-<!--    changeStatus: function (callback) {-->
-<!--      console.log(callback);-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
-
-<!--<style scoped>-->
-
-<!--</style>-->
-
+<script lang="ts" setup>
+import { StarFilled } from '@element-plus/icons-vue'
+</script>
