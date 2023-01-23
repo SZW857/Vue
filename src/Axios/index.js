@@ -1,5 +1,5 @@
 // 首先先引入aixos
-import axios from 'axios'
+import axios, {request} from 'axios'
 
 
 
@@ -15,6 +15,7 @@ const api = axios.create({
 // 请求拦截
 api.interceptors.request.use(
     (config) => {
+
 
 
     // 放行

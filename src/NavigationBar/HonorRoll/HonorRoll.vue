@@ -1,41 +1,70 @@
 <template>
-<div>
-  <el-backtop :bottom="60"><el-icon><ArrowUpBold /></el-icon></el-backtop>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="排名" width="180" />
-      <el-table-column prop="name" label="用户名" width="180" />
-      <el-table-column prop="address" label="签到次数" />
+  <div>
+    <el-row justify="center">荣誉榜</el-row>
+  </div>
+  <div>
+    <el-table
+        :data="tableData"
+        style="width: 100%"
+        :default-sort="{prop: 'signNum', order: 'ascending'}"
+    >
+
+      <el-table-column prop="userId" label="姓名/排名"  width="180" align="center"/>
+
+      <el-table-column prop="sex" label="性别"  align="center"/>
+
+      <el-table-column prop="age" label="年龄" width="380" align="center"/>
+
+      <el-table-column prop="email" label="邮箱" width="180" align="center"/>
+
+      <el-table-column prop="signNum" label="贡献次数"  align="center"/>
+
     </el-table>
 
-
-</div>
+    <span> <marquee behavior="alternate" scrollamount="12">感谢以上十位同志对社区做出的杰出贡献，同时鼓励各位志愿者们贡献自己的一份力,争取榜上有名！！！</marquee></span>
+  </div>
 </template>
 
+<script>
+import {onMounted} from "vue";
+import {getRequest} from "@/Api_Axios/config";
+// onMounted(()=>{
 
-<script lang="ts" setup>
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+// })
+
+export default {
+  mounted() {
+    let _this=this
+    getRequest("/rankVolunteers").then((res)=>{
+      if (res.data!==null){
+        this.tableData=res.data
+        console.log(res.data);
+      }
+    })
   },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+  data() {
+    return {
+      total:[1,2,3,4,5,6,7,8,9,10],
+      tableData: [
+
+      ],
+    }
   },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+  methods: {
+    formatter(row, column) {
+      return row.address
+    },
   },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+}
 </script>
 <style scoped>
+.el-row{
+  color: #d23243;
+  font-size: 30px;
+  font-weight: bold;
+}
+span{
+  color: red;
+}
 
 </style>

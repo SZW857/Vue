@@ -96,8 +96,8 @@
           v-model="ruleForm.sex"
           placeholder="性别"
       >
-        <el-option label="男" value="M" />
-        <el-option label="女" value="F" />
+        <el-option label="男" value="男" />
+        <el-option label="女" value="女" />
       </el-select>
     </el-form-item>
 
@@ -106,8 +106,7 @@
           v-model="ruleForm.idCardAdmin"
           placeholder="请选择你的管理员"
       >
-        <el-option :label="item.admin_name" v-for="(item) in adminALLInfo" :value="item.admin_id"/>
-
+        <el-option :label="item.admin_name" v-for="(item) in adminALLInfo" :value="item.id_card"/>
       </el-select>
     </el-form-item>
 
@@ -259,8 +258,8 @@ export default {
 
     return {
       adminALLInfo:{
-        admin_id:'',
-        admin_name:''
+        idCard:'',
+        adminName:''
       },
       ruleForm: {
         userId: "",
@@ -282,14 +281,19 @@ export default {
         idCard: [{ required:true,validator: idCard, trigger: 'blur' }],
         address: [{ required:true,validator: address, trigger: 'blur' }],
         email:[{required:true,validator:email,trigger:'blur'}],
-        idCardAdmin:[{required:true}]
+        idCardAdmin:[{required:true,message:'请选择一个管理员'}]
       },
     };
   },
   mounted() {
     let _this=this
     getRequest('/admin/selectAdminInfo').then((res)=>{
-      _this.adminALLInfo = res.data
+      if (res.data!==null){
+        _this.adminALLInfo = res.data
+
+      }
+
+      console.log(res.data)
     })
   },
   methods: {
@@ -302,7 +306,7 @@ export default {
          })
           this.$message({
             type: "success",
-            message: "注册成功",
+            message: "注册成功,等待管理员审核...",
           });
          router.replace('/login')
         } else {

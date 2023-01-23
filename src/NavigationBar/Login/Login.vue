@@ -108,6 +108,9 @@ export default {
           setTimeout(()=>{
             window.localStorage.removeItem('AdminToken')
           getRequest('/user/login',_this.ruleForm).then((res)=>{
+            if (res.data===null){
+              _this.loading=false
+            }else {
             //将token存入本地浏览器中
               if (res.data.status === "success") {
                 console.log(res)
@@ -119,6 +122,9 @@ export default {
                 alert("登录成功")
                 router.replace("/PersonalPage")
                 console.log(res.data)
+              } else if (res.data.status==='NoPassed'){
+                ElMessage.error(res.data.data)
+                _this.loading=false
               } else {
                 ElMessage({
                   message: '密码不正确',
@@ -127,6 +133,7 @@ export default {
                 })
                 _this.loading=false
               }
+          }
           })
         },2000)
         } else {

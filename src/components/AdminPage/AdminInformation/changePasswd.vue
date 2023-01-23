@@ -36,9 +36,19 @@
 </template>
 
 <script>
+import router from "@/router";
+import {Base64} from "js-base64";
+import {ElMessage} from "element-plus";
+import {postRequest} from '@/Api_Axios/config.js'
 export default {
+  mounted() {
+    let TMP=JSON.parse(window.localStorage.getItem("AdminToken"))
+    this.params.token=TMP.data
+    this.params.adminId=TMP.id
+
+  },
   data() {
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
         console.log(value)
@@ -53,12 +63,13 @@ export default {
         }
       }
     }
-    var validatePass2 = (rule, value, callback) => {
+    const validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.pass) {
         callback(new Error('两次输入密码不一致!'))
       } else {
+        this.params.passwd=Base64.encode(value)
         callback()
       }
     }
@@ -66,6 +77,11 @@ export default {
       ruleForm: {
         pass: '',
         confirmPass: '',
+      },
+      params:{
+        adminId:'',
+        passwd:'',
+        token:''
       },
       rules: {
         pass: [{ required:true,validator: validatePass, trigger: 'blur'}],
@@ -86,9 +102,21 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          //准备参数 密码 身份证
+          postRequest('/admin/changPasswd',this.params).then((res)=>{
+            if (res.data.status==='success'){
+              alert("修改密码成功")
+              window.localStorage.removeItem("AdminToken")
+              router.replace('/loginOut')
+            }else {
+              setTimeout(()=>{
+                window.location.reload()
+              },1000)
+              ElMessage.error(res.data.data)
+            }
+          })
         } else {
-          console.log('error submit!!')
+          ElMessage.error("请先完成新密码验证!!!")
           return false
         }
       })

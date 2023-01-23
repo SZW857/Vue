@@ -28,7 +28,7 @@ declare module '@vue/runtime-core' {
     ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
-    ForgotPwd: typeof import('./src/components/ForgetPwd/ForgotPwdTemplate.vue')['default']
+    ForgotPwd: typeof import('./src/components/PersonalForgetPwd/ForgotPwdTemplate.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

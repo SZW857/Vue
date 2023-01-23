@@ -6,15 +6,21 @@
           :infinite-scroll-disabled="disabled"
       >
           <el-collapse>
-            <div  id="newsTitle" v-for="news in info" >
-              {{news.title}}
-              <el-collapse-item :name="index" >
-                <div>
-                  <div>{{news.content}}</div>
-                  <el-row justify="space-between">【类型】:{{news.type}}</el-row>
-                  <el-row justify="space-between">【发布时间】:{{formatDate(news.createTime,'yyyy-MM-dd hh:mm:ss')}}</el-row>
-                </div>
-              </el-collapse-item>
+            <div>
+            <div  v-for="(news,index) in info">
+              <div id="newsTitle">{{news.title}}</div>
+                <el-collapse-item :name="index" >
+                    <div id="newsContent">
+                      <el-divider content-position="left">【编号】:{{news.newsId}}&emsp;&emsp;内容:</el-divider>
+                       {{news.content}}
+                    </div>
+                  <div id="newsFooter">
+                    <el-divider content-position="center">结尾</el-divider>
+                    <el-row justify="center">【类型】:{{news.type}}</el-row>
+                    <el-row justify="center">【发布时间】:{{formatDate(news.createTime,'yyyy-MM-dd hh:mm:ss')}}</el-row>
+                 </div>
+                </el-collapse-item>
+             </div>
             </div>
           </el-collapse>
       </ul>
@@ -25,7 +31,7 @@
 
 <script setup >
 
-import {computed, ref, onMounted} from 'vue'
+import {computed, ref, onMounted, reactive} from 'vue'
 import formatDate from '@/static/js/DateFormart.js'
 import { getRequest} from "@/Api_Axios/config";
 
@@ -44,10 +50,11 @@ const load = () => {
     loading.value = false
   }, 2000)
 }
-let info=ref(11)
+let info=ref('')
 onMounted(()=>{
   getRequest("/admin/getNewsInfo").then((res)=>{
     info.value=res.data.reverse()
+
     console.log(res.data)
   })
 })
@@ -58,8 +65,27 @@ onMounted(()=>{
   color: #0c0c0c;
   font-style: italic;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   text-align: left;
+}
+#newsContent{
+  font-size: 17px;
+  text-align: left;
+  white-space:pre-line;
+}
+#newsFooter{
+  position: relative;
+  color: #2e85f6;
+  font-size: 13px;
+}
+#newsTitle1{
+  color: #497dbe;
+  font-style: italic;
+  font-weight: bold;
+
+  text-align: left;
+  position: relative;
+  margin-top: 20px;
 }
 #newsTitle:hover{
   color: #d23243;

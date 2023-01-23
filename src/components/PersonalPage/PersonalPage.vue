@@ -7,7 +7,6 @@
           background-color="#E1E6F0"
           class="el-menu-vertical-demo"
           mode="vertical"
-          default-openeds=[0,2]
           :router="true"
       >
         <el-sub-menu index="0">
@@ -18,8 +17,8 @@
             <el-menu-item index="/cInfo_p">个人资料</el-menu-item>
             <el-menu-item index="/cPasswd_p">修改密码</el-menu-item>
           </el-menu-item-group>
-
         </el-sub-menu>
+
         <el-sub-menu index="2">
           <template #title>
             <el-icon><icon-menu /></el-icon>活动报名
@@ -30,6 +29,16 @@
             <el-menu-item index="2-3">活动报名日志</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
+
+        <el-sub-menu index="3">
+          <template #title>
+            <el-icon><icon-menu /></el-icon>寻求帮助
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="2-1">发布活动信息</el-menu-item>
+          </el-menu-item-group>
+        </el-sub-menu>
+
       </el-menu>
     </el-aside>
 
@@ -49,8 +58,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Menu as IconMenu } from '@element-plus/icons-vue'
-import {User} from "@element-plus/icons";
+import { Menu as IconMenu, Message } from '@element-plus/icons-vue'
+import router from '../../router'
+import {onMounted} from "vue";
+onMounted(()=>{
+router.push('/cInfo_p')
+})
 </script>
 
 <style scoped>
@@ -69,7 +82,7 @@ import {User} from "@element-plus/icons";
 .layout-container-demo .el-main {
   padding: 0;
 }
-.layout-container-demo {
+.layout-container-demo .toolbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
