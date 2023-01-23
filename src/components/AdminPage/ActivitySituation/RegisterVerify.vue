@@ -124,6 +124,7 @@ export default {
         email:'',
         content:'',
         userId:'',
+
         token:'',
         falseCode:"xxx"
       },
