@@ -13,8 +13,8 @@
               <el-icon><message /></el-icon>个人信息
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/cPasswd_a">修改密码</el-menu-item>
               <el-menu-item index="/cInfo_a">修改个人资料</el-menu-item>
+              <el-menu-item index="/cPasswd_a">修改密码</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="2">
@@ -34,7 +34,7 @@
               <el-icon><icon-menu /></el-icon>活动情况
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">活动报名招募</el-menu-item>
+              <el-menu-item index="2-1">志愿活动发布</el-menu-item>
               <el-menu-item index="2-2">志愿者签到统计</el-menu-item>
               <el-menu-item index="2-3">志愿者求助审核</el-menu-item>
               <el-menu-item index="/RegisterVerify">志愿者注册审核</el-menu-item>
@@ -47,7 +47,7 @@
               <el-icon><message /></el-icon>社区信息
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/PublishNews">社区要闻发布</el-menu-item>
+              <el-menu-item index="/PublishNews">社区告示发布</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Menu as IconMenu, Message, } from '@element-plus/icons-vue'
+import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 import { reactive,ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 const formSize = ref('default')
@@ -157,7 +157,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 
 const num = ref(1)
+const handleChange = (value: number) => {
 
+}
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -198,7 +200,7 @@ const tableData = ref(Array.from({ length: 20 }).fill(item))
 .layout-container-demo .el-main {
   padding: 0;
 }
-.layout-container-demo {
+.layout-container-demo .toolbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;

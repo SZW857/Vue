@@ -12,15 +12,14 @@
     </el-form-item>
 
     <el-form-item label="审核状态">
+
       <el-switch
-          v-model="form.verify"
           class="ml-2"
+          v-model="form.verify"
           inline-prompt
           style="--el-switch-on-color: #0056f5; --el-switch-off-color: #ff4949"
           active-text="审核通过"
           inactive-text="审核中ing..."
-          :active-value="1"
-          :inactive-value="0"
           disabled
       ></el-switch>
     </el-form-item>
@@ -70,9 +69,9 @@
 </template>
 
 <script>
-import { getRequest,postRequest} from '@/Api_Axios/config.js'
+import { getRequest,postRequest} from '../../../Api_Axios/config.js'
 import { reactive, ref } from 'vue'
-import router from "../../router";
+import router from "../../../router";
 import {ElMessage} from "element-plus";
 export default {
 
@@ -101,6 +100,7 @@ export default {
     }
 
     return {
+      sss:true,
       dialogFormVisible:ref(false),
       formLabelWidth:'140px',
       form: reactive({
@@ -210,6 +210,15 @@ export default {
 <style scoped>
 h3{
 text-align: center;
+}
+.el-button--text {
+  margin-right: 15px;
+}
+.el-select {
+  width: 200px;
+}
+.el-input {
+  width: 500px;
 }
 .dialog-footer button {
   margin-right: 10px;
