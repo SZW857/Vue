@@ -1,5 +1,10 @@
 <template>
-    <div class="infinite-list-wrapper" style="overflow: auto">
+    <div class="infinite-list-wrapper" style="overflow: auto"
+         v-loading="isOpen"
+         element-loading-text="拼命加载中..."
+         element-loading-background="rgba(191, 191, 191, 0.5)"
+         :element-loading-svg="Loading"
+    >
       <ul
           v-infinite-scroll="load"
           class="list"
@@ -43,6 +48,8 @@ const noMore = computed(() => count.value >= 20)
 
 const disabled = computed(() => loading.value || noMore.value)
 
+let isOpen = ref(true)
+
 const load = () => {
   loading.value = true
   setTimeout(() => {
@@ -53,8 +60,10 @@ const load = () => {
 let info=ref('')
 onMounted(()=>{
   getRequest("/admin/getNewsInfo").then((res)=>{
-    info.value=res.data.reverse()
-
+    info.value=res.data.reverse()//排序最新消息
+    setTimeout(function (){
+      isOpen.value=false
+    },2000)
     console.log(res.data)
   })
 })

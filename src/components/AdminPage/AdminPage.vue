@@ -1,5 +1,5 @@
 <template>
-  <el-container class="layout-container-demo" style="height: 700px">
+  <el-container class="layout-container-demo">
     <el-aside width="200px">
       <el-scrollbar>
         <el-menu
@@ -34,7 +34,7 @@
               <el-icon><icon-menu /></el-icon>活动情况
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">志愿活动发布</el-menu-item>
+              <el-menu-item index="/PublishActive">志愿活动发布</el-menu-item>
               <el-menu-item index="2-2">志愿者签到统计</el-menu-item>
               <el-menu-item index="2-3">志愿者求助审核</el-menu-item>
               <el-menu-item index="/RegisterVerify">志愿者注册审核</el-menu-item>
@@ -72,7 +72,7 @@
 import {onMounted} from "vue";
 import router from "@/router";
 onMounted(()=>{
-router.replace("/cInfo_a")
+// router.replace("/cInfo_a")
 })
 </script>
 

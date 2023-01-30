@@ -15,22 +15,6 @@
                 :maxlength="30"/>
     </el-form-item>
 
-    <el-form-item label="照片">
-      <el-upload
-          v-model:file-list="fileList"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove"
-          :auto-upload="false"
-          accept="image/*"
-      >
-        <el-icon><Plus /></el-icon>
-      </el-upload>
-      <el-dialog v-model="dialogVisible">
-        <img w-full :src="dialogImageUrl" alt="Preview Image" />
-      </el-dialog>
-    </el-form-item>
 
     <el-form-item label="发布类型" prop="type">
       <el-select v-model="ruleForm.type" placeholder="请选择">
@@ -64,7 +48,7 @@
 
 <script lang="ts" setup>
 import {ElMessage} from "element-plus";
-import type { UploadProps, UploadUserFile } from 'element-plus'
+
 import {onMounted, reactive, ref} from 'vue'
 import { postRequest } from '../../../Api_Axios/config.js'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -73,23 +57,15 @@ import router from '../../../router'
 
 const defaultTime = ref(new Date());
 
-const fileList = ref<UploadUserFile[]>([])
+
 
 const dialogImageUrl = ref('')
 
 const dialogVisible = ref(false)
 
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  // console.log(uploadFile, uploadFiles)
-}
-
-const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!
-  dialogVisible.value = true
-}
 
 
-const ruleFormRef = ref<FormInstance>()
+const ruleFormRef = ref<FormInstance>();
 
 const ruleForm = reactive({
   title: '请填写标题',

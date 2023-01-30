@@ -42,7 +42,7 @@ el-col {
   border-radius: 4px;
   min-height: 36px;
   margin-left: 120px;
-  background-color: #fcfcfc;
+  background-color: #d03737;
   height: 154px;
 
 }

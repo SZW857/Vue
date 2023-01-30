@@ -57,10 +57,10 @@
         <h2>联系我们</h2>
         电话：029-83463902 转 123456<br/>
         电邮：751225241@qq.com<br/>
-        地址：西红市土豆区红薯街万事诸顺中心A座1234<br/>
+        地址：陕西省无BUG市大佬区小弟街万事诸顺中心A座1234<br/>
       </div>
       <div id="el_footer_bottom" :style="{'width': `${searchWidth}px`}">
-        ©好公益平台 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：计算机学院所有老师
+        ©好公益平台 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：度娘所有大佬
       </div>
     </div>
   </div>
@@ -69,8 +69,14 @@
 <script>
 import { ref,reactive} from "vue";
 export default {
+  provide(){
+    return{
+      reload:this.reload
+    }
+  },
   data() {
     return {
+      isRouterAlive:true,
       searchWidth: 0,
       show:true,
       show_M:true,
@@ -112,7 +118,7 @@ export default {
         _this.show=false;
         _this.show_V=true
         _this.show_M=false;
-        this.TOKENS.M_TOKEN_NAME=M_TOKEN.extra;
+        this.TOKENS.M_TOKEN_NAME=M_TOKEN.adminName;
       }
     }else {
       //没有token
@@ -130,6 +136,12 @@ export default {
     loginOut_A(){
       window.localStorage.removeItem("AdminToken");
       window.location.replace("/loginOut")
+    },
+    reload(){
+      this.isRouterAlive=false
+      this.$nextTick(()=>{
+        this.isRouterAlive=true
+      })
     }
   }
 }

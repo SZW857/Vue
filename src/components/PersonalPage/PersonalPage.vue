@@ -58,11 +58,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Menu as IconMenu, Message } from '@element-plus/icons-vue'
 import router from '../../router'
-import {onMounted} from "vue";
-onMounted(()=>{
-router.push('/cInfo_p')
+import {inject, onMounted,} from "vue";
+onMounted(() => {
+    router.replace('/cInfo_p')
 })
 </script>
 

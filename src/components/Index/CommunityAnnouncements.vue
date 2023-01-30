@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <div class="new_title"></div>
-    <div class="new_item">荣誉榜</div>
+    <div class="new_item">荣誉榜
+      <span class="getMore"><el-link href="/honorRoll">查看更多>>></el-link></span>
+    </div>
     <div class="new-list">
-      <a herf="" class="new-list" > <div class="img-box"><img src="@/static/picture/icon-banner-bottom-1.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-2.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-3.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
-      <a herf="" class="new-list1"> <div class="img-box"><img src="@/static/picture/icon-banner-bottom-3.png"/><p class="ml">聚焦乡村和城镇流动儿童阅读品质提升，好公益平台主题媒体沙龙在北京举行</p> </div> </a>
+    <a href="/honorRoll"><el-image src="https://ts1.cn.mm.bing.net/th?id=OIP-C.O1CyeKs-ES3CZTfWbTjA2gHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2"
+               /> </a>
     </div>
   </div>
   <div class="container">
-    <div class="new_item">积分商品</div>
+    <div class="new_item">注册人数</div>
   </div>
 </template>
 
@@ -49,6 +49,22 @@
 }
 .new-list1{
   margin-left: 100px;
+}
+.getMore:hover image{
+  font-size: 15px;
+  color: #545c64;
+  position: relative;
+  margin-left: 1000px;
+
+}
+.el-image:hover {
+  transform: scale(1.25);
+}
+.el-image{
+  width: 50%;
+  height: 50%;
+  object-fit:cover;
+  transition:all .5s;
 }
 </style>
 

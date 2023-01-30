@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../NavigationBar/Index/HomeView.vue'
-
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+
   routes :[
     {
       path: '/',
@@ -39,6 +38,11 @@ const router = createRouter({
       path: "/video",
       name: "video",
       component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Advocacy/propaganda.vue')
+    },
+    {
+      path:'/ProjectInformation/:id',
+      name:'ProjectInformation',
+      component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/Volunteering/Detail/ProjectDetail.vue')
     },
     {
       path: "/Volunteering",
@@ -94,12 +98,12 @@ const router = createRouter({
       name: 'AdminPage',
       component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/AdminPage.vue'),
       children:[
-        {
+                {
               path: '/cPasswd_a',//*
               name:'cPasswd_a',
               component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/AdminInformation/changePasswd.vue'),
-        },
-        {
+                },
+                {
               path: '/cInfo_a',//*
               name:'cInfo_a',
               component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/AdminInformation/changInfo.vue'),
@@ -113,13 +117,18 @@ const router = createRouter({
                   path:"/cEmail_a",
                   name:'/cEmail',
                   component: () => import(/* webpackChunkName: "about" */ "@/components/AdminPage/AdminInformation/changeEmail/cEmail.vue"),
-                }
+                },
               ]
+            },
+            {
+              path:'/PublishActive',
+              name:'PublishActive',
+              component:()=> import(/* webpackChunkName: "about"   */ "@/components/AdminPage/ActivitySituation/PublishActive.vue")
             },
             {
               path: '/PublishNews',//*
               name: 'PublishNews',
-              component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/CommunityInfomation/PublishNews.vue'),
+              component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/CommunityInformation/PublishNews.vue'),
             },
             {
               path: '/RegisterVerify',//*
@@ -138,23 +147,34 @@ const router = createRouter({
       name: 'loginOut',
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Login/LoginOut.vue')
     },
+    {
+      path: '/error404',
+      name: 'error404',
+      component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/NotFound/404.vue')
+    }
   ]
 })
 
 
 // 注册一个全局前置守卫
 router.beforeEach((to, from, next) => {
-    //不进行权限控制
-  if (to.path==='/'||to.path==='/login'||to.path==='/register'||
+  /**
+   * 不进行拦截部分
+   * */
+      //志愿者部分
+  if (to.path==='/'||to.path==='/login'||to.path==='/register'||to.path==='/error404'||
       to.path==="/freeze"||to.path==='/forgetPwd_p'||to.path==='/loginOut'||
       to.path==='/guide'||to.path==='/Volunteering'||to.path==='/news'||
       to.path==='/admin'||to.path==='/PublishNews'||to.path==='/RegisterVerify'||
-      to.path==='/honorRoll'||
+      to.path==='/honorRoll'||to.path.includes("/ProjectInformation")||
       //管理员部分
       to.path==='/login_A'||to.path==='/forgetPwd_a'){
     return next()
   }else {
-    //进行拦截
+    /**
+     * 进行拦截部分
+     * */
+    //志愿者
     if (to.path==='/PersonalPage'||to.path==="/cPasswd_p"||to.path==="/cInfo_p"||
         to.path==='/cTelephone'||to.path==='/cEmail'){
       if(localStorage.getItem('VolunteerToken') === null) {
@@ -162,18 +182,17 @@ router.beforeEach((to, from, next) => {
       }else {
         next()
       }
-      //管理员部分
+      //管理员
     }else if (to.path==='/AdminPage'||to.path==='/PublishNews'||to.path==='/RegisterVerify'||
               to.path==='/RegisterVerify'||to.path==='/cPasswd_a'||to.path==='/cInfo_a'||
-              to.path==='/cEmail_a'||to.path==='/cTelephone_a'){
+              to.path==='/cEmail_a'||to.path==='/cTelephone_a'||to.path==="/PublishActive"){
       if(localStorage.getItem('AdminToken') === null) {
         next('/login_A')
       }else {
         next()
       }
     }else {
-      alert("访问权限不够或访问路径不存在！！将返回首页")
-      next('/')
+      next('/error404')
     }
   }
 })

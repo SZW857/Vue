@@ -3,7 +3,6 @@
   <div style="margin-top:50px;margin-left: 280px;" >
     <el-form ref="form"
              :model="form"
-             :rules="rules"
              label-width="120px"
              size="large"
     >
@@ -35,7 +34,6 @@ import {ElMessage} from "element-plus";
 export default {
 
   data() {
-
     return {
       dialogFormVisible:ref(false),
       formLabelWidth:'140px',
@@ -45,19 +43,11 @@ export default {
         token:'',
         userId:''
       }),
-      cTelephone:reactive({
-        telephoneNew: '',
-        verifyCode: '',
-      }),
-      cEmail:reactive({
-        emailNew: '',
-        verifyCode: '',
-      }),
       adminInfo:{
         telephone: '',
         email: '',
         token:'',
-        adminId:''
+        adminName:''
       },
     }
   },
@@ -66,13 +56,12 @@ export default {
     let _this=this
     let tmp=window.localStorage.getItem('AdminToken');
     if (tmp!==null){
-      _this.adminInfo.token=JSON.parse(tmp).data;
-      _this.adminInfo.adminId=JSON.parse(tmp).extra;
-      getRequest('/admin/selectOneAdminInfo',_this.adminInfo).then((res)=>{
-        let a=res.data
-        this.form.telephone=a[0].telephone
-        this.form.email=a[0].email
-        console.log(res.data)
+      _this.adminInfo.token=JSON.parse(tmp).data
+      _this.adminInfo.adminName=JSON.parse(tmp).adminName
+      // console.log(_this.adminInfo.adminName)
+      getRequest('/admin/selectOneAdminInfo',_this.adminInfo).then(function (res){
+       _this.form.telephone =  res.data[0].telephone;
+       _this.form.email = res.data[0].email
       })
     }else {
       alert("服务器请求失败，请先登录!!!")

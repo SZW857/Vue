@@ -3,7 +3,10 @@ const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
+
 module.exports = defineConfig({
+
+  productionSourceMap:false,
   lintOnSave: false ,  //加入此行 , false为关闭true为开启
   transpileDependencies: true,
   configureWebpack: {
@@ -13,12 +16,14 @@ module.exports = defineConfig({
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+
+            }
+        ,
         exclude: /node_modules/,
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        }
-      }
+      },
     ]
    },
   },

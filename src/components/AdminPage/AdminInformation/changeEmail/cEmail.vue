@@ -146,7 +146,7 @@ export default {
         if (valid) {
           let TMP= JSON.parse(window.localStorage.getItem('AdminToken'));
           this.para.token = TMP.data
-          this.para.adminName = TMP.extra
+          this.para.adminName = TMP.adminName
           console.log(this.para)
           postRequest("/admin/changEmail",this.para).then((res)=>{
             if (res.data.status==='success'){

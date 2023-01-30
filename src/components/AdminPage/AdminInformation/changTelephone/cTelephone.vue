@@ -42,6 +42,7 @@ import router from "@/router";
 import { ref } from 'vue'
 import {getRequest,postRequest} from "@/Api_Axios/config";
 import {Base64} from "js-base64";
+import {ElMessage} from "element-plus";
 
 export default {
   name:'NewTelephone',
@@ -145,26 +146,34 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let TMP= JSON.parse(window.localStorage.getItem('AdminToken'));
-          this.para.token =  TMP.data
-          this.para.adminName = TMP.extra
-          // console.log(this.para.token)
-          // console.log(TMP)
-          postRequest('/admin/changTelephoneNumber',this.para).then((res)=>{
-            if (res.data.status==='success'){
-              alert('绑定成功');
-              this.dialogFormVisible=false
-              setTimeout(()=>{
-                window.location.reload()
-              },500)
-              router.replace('/cInfo_a')
-            }else {
-              alert('绑定失败')
-              console.log(res.data)
-              this.dialogFormVisible=false
-              router.replace('/cInfo_a')
-            }
-          })
+          let TMP= window.localStorage.getItem('AdminToken');
+          if (TMP!==null){
+            let tmp = JSON.parse(TMP)
+            this.para.token =  tmp.data
+            this.para.adminName = tmp.adminName
+            postRequest('/admin/changTelephoneNumber',this.para).then((res)=>{
+              if (res.data.status==='success'){
+                alert('绑定成功');
+                this.dialogFormVisible=false
+                setTimeout(()=>{
+                  window.location.reload()
+                },500)
+                router.replace('/cInfo_a')
+              }else {
+                alert('绑定失败')
+                console.log(res.data)
+                this.dialogFormVisible=false
+                router.replace('/cInfo_a')
+              }
+            })
+          }else {
+            window.localStorage.removeItem("AdminToken")
+            ElMessage.error("令牌失效，3s将后返回首页")
+            setTimeout(()=>{
+              window.location.reload()
+             router.replace('/')
+            },3000)
+          }
         } else {
           alert('提交失败!!')
           return false

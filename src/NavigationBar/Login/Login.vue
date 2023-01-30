@@ -61,6 +61,7 @@ import {ElMessage} from "element-plus";
 import { ref } from 'vue'
 export default {
   //
+  inject:['reload'],
   data() {
     var validateUserName = (rule, value, callback) => {
       if (value === "") {
@@ -110,15 +111,16 @@ export default {
           getRequest('/user/login',_this.ruleForm).then((res)=>{
             if (res.data===null){
               _this.loading=false
+              alert("后台加载失败~")
             }else {
             //将token存入本地浏览器中
               if (res.data.status === "success") {
+                localStorage.setItem("VolunteerToken", JSON.stringify(res.data))
                 console.log(res)
                 setTimeout(() => {
                   _this.loading=false
-                  this.flush()
-                }, 800)
-                localStorage.setItem("VolunteerToken", JSON.stringify(res.data))
+                  location.reload()
+                }, 900)
                 alert("登录成功")
                 router.replace("/PersonalPage")
                 console.log(res.data)

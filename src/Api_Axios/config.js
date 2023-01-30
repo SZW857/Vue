@@ -7,7 +7,7 @@ export const postRequest = (path, param) => {
         header: {
         },
         params:param,
-        dataType: 'json'
+
     })
 }
 export const getRequest = (path,params) => {
