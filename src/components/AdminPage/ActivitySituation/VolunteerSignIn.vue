@@ -7,30 +7,26 @@
         :data="tableData"
         style="width: 100%" border
     >
-      <el-table-column label="活动编号" prop="serialNum" sortable sort-by="descending"/>
-      <el-table-column label="活动名称" prop="title"> </el-table-column>
-      <el-table-column label="宣传海报" prop="imageUrl" align="center">
+      <el-table-column label="活动编号" prop="serialNum" />
+      <el-table-column label="开始时间" prop="startDate" sortable sort-by="descending"/>
+      <el-table-column label="结束时间" prop="finishDate" sortable sort-by="descending"/>
+      <el-table-column label="用户名你" prop="userId"/>
+      <el-table-column label="合照凭证" prop="voucher" align="center">
         <template #default="scope">
-          <el-image  style="width: 140px; height: 130px" :src="scope.row.imageUrl" alt="" :fit="fill" ></el-image>
+          <el-image  style="width: 140px; height: 130px" :src="scope.row.voucher" alt="" :fit="fill" ></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="活动类型" prop="type"> </el-table-column>
-      <el-table-column label="活动开始时间" prop="startDate"> </el-table-column>
-      <el-table-column label="招募人数" prop="peopleNum"> </el-table-column>
-      <el-table-column label="联系人" prop="contact"> </el-table-column>
-      <el-table-column label="联系电话" prop="telephone"> </el-table-column>
-      <el-table-column align="right">
-        <template #header>
-          <el-input v-model="search" size="mini" placeholder="输入活动名称" @change="fuck " />
-        </template>
-        <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">参加</el-button>
-          <el-button size="small" type="success" @click="jump(scope.row)">详情</el-button>
+      <el-table-column label="签到状态" prop="telephone"/>
+      <el-table-column align="center" label="操作">
+        <template #default="scope" >
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">通过</el-button>
+          <el-button size="small" type="success" @click="jump(scope.row)">回函</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-row justify="space-around"> <el-pagination  @current-change="pageNum" large background layout="prev, pager, next" :page-size="pageSize" :total="totalNum" class="mt-4"/></el-row>
   </div>
+  <router-view></router-view>
 </template>
 <script>
 import {getRequest, postRequest} from "@/Api_Axios/config";
@@ -41,59 +37,36 @@ import router from "@/router";
 
 export default {
   mounted() {
-    getRequest('/project/getProjectInformation/1/'+this.pageSize).then((res)=>{//从第一页开始，每页五个
+    let tmp = window.localStorage.getItem("AdminToken")
+    if (tmp!==null){
+      const token = JSON.parse(tmp).data
+    getRequest('/admin/getSignInVolunteer/1/'+this.pageSize,{token:token}).then((res)=>{//从第一页开始，每页五个
+      console.log(res.data)
       let _this = this
-      if (res.data!=null||res.data!==''){
+      if (res.data!==null){
         setTimeout(function (){
           this.isOpen=false
         },1000)
-        for (let i = 0; i < res.data.data.length; i++) {
-          res.data.data[i].startDate=dateFormat(res.data.data[i].startDate)
-          res.data.data[i].finishDate=dateFormat(res.data.data[i].finishDate)}
-        // console.log(res.data)
         this.tableData = res.data.data
         this.totalNum = res.data.total
-        getRequest('/project/getProjectInformation/1/'+res.data.total).then((res)=>{
-          for (let i = 0; i < res.data.data.length; i++) {
-            res.data.data[i].startDate=dateFormat(res.data.data[i].startDate)
-            res.data.data[i].finishDate=dateFormat(res.data.data[i].finishDate)}
-          this.tableDataAll=res.data.data
-          setTimeout(function (){
-            _this.isOpen=false
-          },1000)
-        })
       }else {
         setTimeout(function (){
-
           router.replace("/")
           _this.isOpen=false
         },1000)
         ElMessage.error("服务器请求失败")
       }
     })
+    }
   },
   data(){
     return{
-      isOpen: true,
+      isOpen: false,
       pageSize:5,
       currentPage:1,
       totalNum: 5,
       tableData:reactive([]),
-      tableDataAll:reactive([
-        {
-          serialNum: '2016-05-03',
-          title: '马冬梅',
-          imageUrl: 'https://pic3.zhimg.com/v2-c6ae9c3aff36b9b221258f6a90577902_r.jpg',
-          type: '扶贫助残',
-          startDate: '2023-1-16 12：56',
-          peopleNum: 30,
-          contact: '张三',
-          telephone: '15389085001',
-        },
-      ]),
-      search:'',
-      filter:[],
-      duration:60*60*1000, //设置过期时间10分钟内放行报名
+
       params:{
         serialNum:0,
         token:'',
@@ -103,18 +76,10 @@ export default {
       }
     }
   },
-  watch:{
-    search:function (v1){
-      if (v1!==''){
-        this.fuck(v1)
-      }else {
-        window.location.reload()
-      }
-    }
-  },
+
   methods:{
     pageNum(x){
-      getRequest('/project/getProjectInformation/'+x+'/'+this.pageSize).then((res)=> {//从第一页开始，每页五个
+      getRequest('/project/getProjectInformation/'+x+'/'+this.pageSize,).then((res)=> {//从第一页开始，每页五个
 
         for (let i = 0; i < res.data.data.length; i++) {
           res.data.data[i].startDate=dateFormat(res.data.data[i].startDate)
@@ -126,7 +91,34 @@ export default {
       })
     },
     handleEdit(index,row){
-      this.isLogin(row)
+      const _this=this
+      this.$confirm('是否确定通过 '+'"'+row.userId+'"'+' 用户的签到?','审核提示',{
+        confirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type:'warning',
+      }).then(()=>{
+        alert(215154)
+        //发送数据
+        _this.params.userId = row.userId
+        _this.params.serialNum = row.serialNum
+        console.log(_this.params)
+        postRequest('/admin/passVolunteersSignIn',_this.params).then((res)=>{
+          if (res.data.status==='success'){
+            setTimeout(()=>{
+              window.location.reload()
+            },2500)
+            console.log(res.data);
+            ElMessage.success(res.data.data)
+          }else {
+            ElMessage.error('服务器崩溃~')
+          }
+        })
+      }).catch(()=>{
+        ElMessage.info('已取消操作')
+      })
+
+      // this.isLogin(row)
+
       // console.log(index, row)
       // this.Timestamp_To_Date()
     },

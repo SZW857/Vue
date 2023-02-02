@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../NavigationBar/Index/HomeView.vue'
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-
   routes :[
     {
       path: '/',
@@ -64,30 +63,43 @@ const router = createRouter({
       name: 'PersonalPage',
       component: ()=> import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalPage.vue'),
       children: [
-        {
-          path: '/cPasswd_p',
-          name:'cPasswd_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalInformation/changePasswd.vue'),
-        },
-        {
-          path: '/cInfo_p',
-          name:'cInfo_p',
-          component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalInformation/changeInfo.vue'),
-          children: [
-            {
-              path:"/cTelephone",
-              name:'/cTelephone',
-              component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalInformation/changTelephone/cTelephone.vue'),
-            },
-            {
-              path:"/cEmail",
-              name:'/cEmail',
-              component: () => import(/* webpackChunkName: "about" */ "@/components/PersonalPage/PersonalInformation/changeEmail/cEmail.vue"),
-            }
-          ]
-        },
-      ]
-    },
+                 {
+                  path: '/cPasswd_p',
+                  name:'cPasswd_p',
+                  component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalInformation/changePasswd.vue'),
+                 },
+                 {
+                  path: '/cInfo_p',
+                  name:'cInfo_p',
+                  component: () => import(/* webpackChunkName: "about" */ '@/components/PersonalPage/PersonalInformation/changeInfo.vue'),
+                  children: [
+                    {
+                      path:"/cTelephone",
+                      name:'cTelephone',
+                      component: () => import(/* webpackChunkName: "about" */ '../components/PersonalPage/PersonalInformation/changTelephone/cTelephone'),
+                    },
+                    {
+                      path:"/cEmail",
+                      name:'cEmail',
+                      component: () => import(/* webpackChunkName: "about" */ "@/components/PersonalPage/PersonalInformation/changeEmail/cEmail.vue"),
+                    },
+                  ],
+                 },
+                {
+                  path:"/EnrollResult",
+                  name:'EnrollResult',
+                  component: () => import(/* webpackChunkName: "about" */ "@/components/PersonalPage/Enroll/EnrollResult.vue"),
+                  children: [
+
+                  ]
+                },
+                {
+                  path: '/searchHelp',
+                  name: '',
+                  component: () => import(/* webpackChunkName: "about" */ "@/components/PersonalPage/SearchHelp/helpInfo.vue"),
+                }
+              ],
+     },
     {
       path: "/Login_A",
       name: 'Login_A',
@@ -121,9 +133,14 @@ const router = createRouter({
               ]
             },
             {
+              path: "/verifyHelpInformation",
+              name: 'verifyHelpInformation',
+              component: () => import(/* webpackChunkName: "about" */ "@/components/AdminPage/ActivitySituation/HelpInformation.vue"),
+            },
+            {
               path:'/PublishActive',
               name:'PublishActive',
-              component:()=> import(/* webpackChunkName: "about"   */ "@/components/AdminPage/ActivitySituation/PublishActive.vue")
+              component:()=> import(/* webpackChunkName: "about" */ "@/components/AdminPage/ActivitySituation/PublishActive.vue")
             },
             {
               path: '/PublishNews',//*
@@ -135,8 +152,13 @@ const router = createRouter({
               name: 'RegisterVerify',
               component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/ActivitySituation/RegisterVerify.vue'),
             },
+            {
+              path: '/VolunteerSignIn',
+              name: 'VolunteerSignIn',
+              component: ()=> import(/* webpackChunkName: "about" */ '@/components/AdminPage/ActivitySituation/VolunteerSignIn.vue'),
+            }
           ]
-        },
+     },
     {
       path: "/honorRoll",
       name: 'honorRoll',
@@ -151,7 +173,18 @@ const router = createRouter({
       path: '/error404',
       name: 'error404',
       component: () => import(/* webpackChunkName: "about" */ '@/NavigationBar/NotFound/404.vue')
+    },
+    {
+      path: '/signIn/:id',
+      name: 'signIn',
+      component:()=> import(/*webpackChunkName: "about */ "@/components/PersonalPage/Enroll/HJG/sign.vue")
+    },
+    {
+      path: '/helpInformationDetail/:id',
+      name: 'helpInformationDetail',
+    component:()=> import(/*webpackChunkName: "about */ "@/components/AdminPage/ActivitySituation/HelpInformationDetail/HelpInformationDetail.vue")
     }
+
   ]
 })
 
@@ -176,7 +209,9 @@ router.beforeEach((to, from, next) => {
      * */
     //志愿者
     if (to.path==='/PersonalPage'||to.path==="/cPasswd_p"||to.path==="/cInfo_p"||
-        to.path==='/cTelephone'||to.path==='/cEmail'){
+        to.path==='/cTelephone'||to.path==='/cEmail'||to.path==='/EnrollResult'||
+        to.path.includes("/signIn")||to.path==='/searchHelp'
+    ){
       if(localStorage.getItem('VolunteerToken') === null) {
         next('/login')
       }else {
@@ -185,7 +220,10 @@ router.beforeEach((to, from, next) => {
       //管理员
     }else if (to.path==='/AdminPage'||to.path==='/PublishNews'||to.path==='/RegisterVerify'||
               to.path==='/RegisterVerify'||to.path==='/cPasswd_a'||to.path==='/cInfo_a'||
-              to.path==='/cEmail_a'||to.path==='/cTelephone_a'||to.path==="/PublishActive"){
+              to.path==='/cEmail_a'||to.path==='/cTelephone_a'||to.path==="/PublishActive"||
+              to.path==='/VolunteerSignIn'||to.path.includes('helpInformationDetail')||
+              to.path==='/verifyHelpInformation'
+            ){
       if(localStorage.getItem('AdminToken') === null) {
         next('/login_A')
       }else {

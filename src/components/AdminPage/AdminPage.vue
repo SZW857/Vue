@@ -17,26 +17,23 @@
               <el-menu-item index="/cPasswd_a">修改密码</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>留言板
-            </template>
-            <el-menu-item-group>
-
-              <el-menu-item index="2-1">留言记录</el-menu-item>
-              <el-menu-item index="2-2">编辑留言</el-menu-item>
-            </el-menu-item-group>
-
-
-          </el-sub-menu>
+<!--          <el-sub-menu index="2">-->
+<!--            <template #title>-->
+<!--              <el-icon><icon-menu /></el-icon>留言板-->
+<!--            </template>-->
+<!--            <el-menu-item-group>-->
+<!--              <el-menu-item index="2-1">留言记录</el-menu-item>-->
+<!--              <el-menu-item index="2-2">编辑留言</el-menu-item>-->
+<!--            </el-menu-item-group>-->
+<!--          </el-sub-menu>-->
           <el-sub-menu index="3">
             <template #title>
               <el-icon><icon-menu /></el-icon>活动情况
             </template>
             <el-menu-item-group>
               <el-menu-item index="/PublishActive">志愿活动发布</el-menu-item>
-              <el-menu-item index="2-2">志愿者签到统计</el-menu-item>
-              <el-menu-item index="2-3">志愿者求助审核</el-menu-item>
+              <el-menu-item index="/VolunteerSignIn">志愿者签到审核</el-menu-item>
+              <el-menu-item index="/verifyHelpInformation">志愿者求助审核</el-menu-item>
               <el-menu-item index="/RegisterVerify">志愿者注册审核</el-menu-item>
             </el-menu-item-group>
 

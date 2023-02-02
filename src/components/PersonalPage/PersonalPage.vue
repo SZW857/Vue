@@ -24,9 +24,8 @@
             <el-icon><icon-menu /></el-icon>活动报名
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">活动报名结果</el-menu-item>
-            <el-menu-item index="2-2">退选活动结果</el-menu-item>
-            <el-menu-item index="2-3">活动报名日志</el-menu-item>
+            <el-menu-item index="/EnrollResult">活动报名结果</el-menu-item>
+
           </el-menu-item-group>
         </el-sub-menu>
 
@@ -35,7 +34,7 @@
             <el-icon><icon-menu /></el-icon>寻求帮助
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">发布活动信息</el-menu-item>
+            <el-menu-item index="/searchHelp">发布活动信息</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
 
@@ -72,8 +71,7 @@ onMounted(() => {
   color: var(--el-text-color-primary);
 }
 .layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
+  background-color: #E1E6F0;
 }
 .layout-container-demo .el-menu {
   border-right: none;

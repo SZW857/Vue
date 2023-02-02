@@ -108,26 +108,21 @@ export default {
       this.params.adminId = tmp.id
     }
   },
-
   data() {
     let checkTimepicker = (rule, value, callback) => {
       if (value[0]===null||value[1]===null||value.length<=0) {
         return  callback(new Error('时间不能为空'))
       }else {
         let tmp = checkDate(value[0],value[1])
-
-        if (tmp==="请发布当天内容"){
+        if(tmp==='发布时长以2小时为单位'){
           alert(tmp)
-          callback(new Error('请发布当天活动内容!!!'))
-        }else if(tmp==='发布时长以2小时为单位'){
+          callback(new Error('发布时长以2小时为一个单位,当前选择时间周期太长'))
+        }else if (tmp ==='今日可以安排的时间已过,应该在16:00以前'){
           alert(tmp)
-          callback(new Error('发布时长以2小时为一个单位'))
-        }else if (tmp ==='当前选择的发布时间有误'){
+          callback(new Error('今日可以安排的时间已过,应该在16:00以前'))
+        }else if (tmp==='选择的发布不能小于当前时间'){
           alert(tmp)
-          callback(new Error('当前选择的发布时间有误'))
-        }else if (tmp==='今日可以安排的时间已经过了'){
-          alert(tmp)
-          callback(Error('今日可以安排的时间已经过了'))
+          callback(Error('选择的发布不能小于当前时间'))
         } else {
           callback()
         }

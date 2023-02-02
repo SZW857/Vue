@@ -21,7 +21,8 @@
       </div>
     </div>
 
-    <div style="font-size: 150%">
+    <div style="font-size: 150%;" >
+
       <el-menu
           class="el-menu-demo"
           mode="horizontal"
@@ -36,9 +37,11 @@
         <el-menu-item index="/video">社区公益推广</el-menu-item>
         <el-menu-item index="/news">社区告示</el-menu-item>
         <el-menu-item index="/freeze">不动</el-menu-item>
+        <el-menu-item index="/remark">留言</el-menu-item>
         <el-menu-item index="/PersonalPage">志愿者个人页</el-menu-item>
         <el-menu-item index="/AdminPage">后台管理入口</el-menu-item>
       </el-menu>
+
     </div>
 
 
@@ -60,7 +63,7 @@
         地址：陕西省无BUG市大佬区小弟街万事诸顺中心A座1234<br/>
       </div>
       <div id="el_footer_bottom" :style="{'width': `${searchWidth}px`}">
-        ©好公益平台 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：度娘所有大佬
+        ©史泽文个人社区公益服务管理系统网站 版权所有&emsp;&emsp;粤—北京理工大学珠海学院 技术支持：度娘所有大佬
       </div>
     </div>
   </div>

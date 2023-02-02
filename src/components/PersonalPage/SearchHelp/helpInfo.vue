@@ -1,23 +1,23 @@
 <template>
-  <div style="background-color: #f1aeae">
+  <div style="  background-image: linear-gradient(to right , #b4d591, #bcfcc2);">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <span style="position: absolute">
       <el-form-item label="联系邮箱" label-width="120" prop="email" style="width: 500px;">
-        <el-input v-model="ruleForm.email" readonly ></el-input>
+        <el-input v-model="ruleForm.email"  ></el-input>
       </el-form-item>
       </span>
-      <el-form-item label="标题" prop="title" style="width: 600px" required>
+      <el-form-item label="标题" prop="title" style="width: 600px" >
         <el-input v-model="ruleForm.title " maxlength="50" show-word-limit></el-input>
       </el-form-item>
       <span style="position: absolute">
          <el-form-item label-width="120" label="发起人联系电话" prop="telephone" style="width: 500px">
-        <el-input v-model="ruleForm.telephone" readonly></el-input>
+        <el-input v-model="ruleForm.telephone" ></el-input>
       </el-form-item>
       </span>
-      <el-form-item label="联系人" prop="contact" style="width: 500px">
-        <el-input v-model="ruleForm.contact " readonly></el-input>
+      <el-form-item label="发起人" prop="userId" style="width: 500px">
+        <el-input v-model="ruleForm.userId " readonly></el-input>
       </el-form-item>
-      <el-form-item label="宣传海报" prop="pic">
+      <el-form-item label="宣传海报" prop="pic" >
         <div id="upload">
           <el-upload
               class="avatar-uploader"
@@ -33,8 +33,7 @@
               :before-upload="beforeAvatarUpload"
           >
             <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar" />
-            <el-icon v-else class="avatar-uploader-icon"></el-icon>
-
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <el-row justify="start">  <el-button  size="small"  id="uploadButton" type="primary" @click="uploadImage">上传图片</el-button></el-row>
         </div>
@@ -62,12 +61,21 @@
           <el-option label="便民服务" value="便民服务"></el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="请选择审核员" prop="idCardAdmin" >
+        <el-select
+            v-model="ruleForm.idCardAdmin"
+            placeholder="请选择审核员"
+        >
+          <el-option :label="item.admin_name" v-for="(item) in adminALLInfo" :value="item.id_card"/>
+        </el-select>
+      </el-form-item>
       <el-form-item label="活动时间" prop="date" required style="width: 500">
         <el-col :span="5">
           <el-date-picker
               style="width: 380px"
               v-model="ruleForm.date"
-              type="daterange"
+              type="datetimerange"
               placeholder="请选择开始结束时间"
               :default-time="defaultTime"
               format="YYYY-MM-DD HH:mm:00"
@@ -95,20 +103,52 @@
 <script>
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import {postRequest} from "@/Api_Axios/config";
+import {getRequest, postRequest} from "@/Api_Axios/config";
+import router from "@/router";
+import {checkDate} from "@/static/js/dateFormat";
 export default {
   mounted() {
-    let tmp = JSON.parse(window.localStorage.getItem("AdminToken"));
-    if (tmp!==''||tmp!==null){
-      this.ruleForm.telephone = tmp.telephone
-      this.ruleForm.email = tmp.email
-      this.ruleForm.contact = tmp.adminName
-      this.token = tmp.data
-      this.params.adminId = tmp.id
+    let _this=this
+    let tmp = JSON.parse(window.localStorage.getItem("VolunteerToken"));
+    if (tmp!==null){
+      _this.ruleForm.userId = tmp.extra
+      _this.params.token = tmp.data
+
     }
+
+    getRequest('/admin/selectAdminInfo').then((res)=>{
+      if (res.data!==null){
+        _this.adminALLInfo = res.data
+      }
+      console.log(res.data)
+    })
+
   },
   data() {
+    let checkTimepicker = (rule, value, callback) => {
+      if (value[0]===null||value[1]===null||value.length<=0) {
+        return  callback(new Error('时间不能为空'))
+      }else {
+        let tmp = checkDate(value[0],value[1])
+        if(tmp==='发布时长以2小时为单位'){
+          alert(tmp)
+          callback(new Error('发布时长以2小时为一个单位,当前选择时间周期太长'))
+        }else if (tmp ==='今日可以安排的时间已过,应该在16:00以前'){
+          alert(tmp)
+          callback(new Error('今日可以安排的时间已过,应该在16:00以前'))
+        }else if (tmp==='选择的发布不能小于当前时间'){
+          alert(tmp)
+          callback(Error('选择的发布不能小于当前时间'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
+      adminALLInfo:{
+        idCard:'',
+        adminName:''
+      },
       file:[],
       defaultTime:new Date(2023,1,20,8,0),
       token:'',
@@ -117,42 +157,46 @@ export default {
         contact: '',
         email: '',
         telephone:'',
-        peopleNum: 10,
+        peopleNum: null,
         type: '',
         title:'',
-        date:[],
-        content:''
+        date:['2023-01-01 08:00:00',"2023-01-01 10:00:00"],
+        content:'',
+        userId:'',
+        idCardAdmin:''
       },
       params:{
         imageUrl: '',
-        contact: '',
         email: '',
         title:'',
         telephone:'',
-        peopleNum: 10,
+        peopleNum: null,
         type: '',
         startDate:'',
         finishDate:'',
         content:'',
+        remaining:'',
         token:'',
+        userId:'',
         adminId:''
       },
       rules: {
-        email: [{ message: '你的联系邮箱', trigger: 'blur' }],
-        telephone: [{ message: '你的手机号', trigger: 'blur' }],
-        peopleNum: [{ required: true, trigger: 'blur' }],
+        title: [{ required:true, message:'标题是必填项' ,trigger:'blur'}],
+        email: [{ required:true, message: '你的联系邮箱', trigger: 'blur' }],
+        telephone: [{ required:true, message: '你的手机号', trigger: 'blur' }],
+        peopleNum: [{ required: true, trigger: 'blur',message:'请输入人数' }],
         type: [{ required: true, message: '请填写活动形式', trigger: 'blur' }],
-        date: [{ required: true, message: '请填写活动时间', trigger: 'blur' }],
+        date: [{ required: true,validator: checkTimepicker, trigger: 'blur' }],
         content: [{ required: true, message: '请填写活动内容', trigger: 'blur' }]}
     };
   },
+
   methods: {
     submitForm(formName) {
       let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
           _this.params.imageUrl = _this.ruleForm.imageUrl
-          _this.params.contact= _this.ruleForm.contact
           _this.params.email=_this.ruleForm.email
           _this.params.title=_this.ruleForm.title
           _this.params.telephone=_this.ruleForm.telephone
@@ -161,15 +205,38 @@ export default {
           _this.params.startDate=_this.ruleForm.date[0]
           _this.params.finishDate=_this.ruleForm.date[1]
           _this.params.content=_this.ruleForm.content
-          _this.params.token = _this.token
+          _this.params.adminId = _this.ruleForm.idCardAdmin
+          _this.params.userId = _this.ruleForm.userId
+          _this.params.remaining = _this.ruleForm.peopleNum
           console.log(this.params)
-          postRequest('/admin/publishActive',_this.params).then((res)=>{
-            alert("ok")
-            console.log(res.date);
+          postRequest('/user/postHelpInformation',_this.params).then((res)=>{
+            if(res.data.msg==="TOKEN过期"){
+              ElMessage.error("发布失败，令牌过期,3s后将返回首页")
+              window.localStorage.removeItem("AdminToken")
+              setTimeout(()=>{
+                router.replace("/")
+              },3000)
+            }else if(res.data.msg==="无效签名"){
+              ElMessage.error("发布失败，无效令牌签名,3s后将返回首页")
+              window.localStorage.removeItem("AdminToken")
+              setTimeout(()=>{
+                router.replace("/")
+              },3000)
+            }else if (res.data.msg==="TOKEN异常"){
+              ElMessage.error("发布失败，令牌异常,3s后将返回首页")
+              window.localStorage.removeItem("AdminToken")
+              setTimeout(()=>{
+                router.replace("/")
+              },3000)
+            }else {
+              setTimeout(()=>{
+                window.location.reload();
+              },1000)
+              alert('发布求助志愿活动成功!');
+            }
           })
-          alert('submit!');
         } else {
-          console.log('error submit!!');
+          alert('请先通过表单校验!!');
           return false;
         }
       });
@@ -209,12 +276,17 @@ export default {
         let formData = new FormData();
         formData.append("avatar", _this.file.raw)
         formData.append("token",_this.token)
-        axios.post('http://127.0.0.1:8083/user/measure',formData).then((res)=>{
+        axios.post('http://127.0.0.1:8083/admin/uploadImage',formData).then((res)=>{
           if (res.data.code===200){
             ElMessage.success("上传成功")
             this.ruleForm.imageUrl=res.data.data
           }else if (res.data.state==='false'){
             ElMessage.error("令牌过期，上传失败，请重新登录")
+            window.localStorage.removeItem("AdminToken")
+            setTimeout(()=>{
+              window.location.reload();
+              router.replace("/")
+            },3000)
           }
           console.log(res.data)
         })
@@ -253,8 +325,6 @@ export default {
   display: block;
 }
 #uploadButton{
-
-
   width: 80px;
 }
 </style>

@@ -10,11 +10,11 @@
       <el-form-item label="标题" prop="title" style="width: 730px" class="item">
         <el-input v-model="ruleForm.title " readonly></el-input>
       </el-form-item>
-      <el-form-item label="联系人" prop="contact" style="width: 500px" class="item">
-        <el-input v-model="ruleForm.contact " readonly></el-input>
+      <el-form-item label="发起人" prop="userId" style="width: 500px" class="item">
+        <el-input v-model="ruleForm.userId " readonly></el-input>
       </el-form-item>
 
-      <el-form-item label="联系人邮箱" label-width="100" prop="email" style="width: 500px;" class="item">
+      <el-form-item label="发起人邮箱" label-width="100" prop="email" style="width: 500px;" class="item">
         <el-input v-model="ruleForm.email" readonly ></el-input>
       </el-form-item>
 
@@ -93,19 +93,25 @@ import {ElMessage} from "element-plus";
 import {dateFormat} from "@/static/js/dateFormat";
 export default {
   mounted() {
-    let tmp = window.localStorage.getItem('VolunteerToken')
+    let tmp = window.localStorage.getItem('AdminToken')
     if (tmp===null){
-      this.path='/Volunteering'
+      this.path='/'
+      ElMessage.warning("令牌失效")
+      setTimeout(function (){
+        location.reload();
+      },1500)
     }else {
-      this.path='/EnrollResult'
+      this.params.token = JSON.parse(tmp).data
+      this.path='/verifyHelpInformation'
     }
 
-    let serialNum = this.$route.params.id
-    getRequest('/project/getDetailPage',{serialNum:serialNum}).then((res)=>{
-      console.log(res.data)
-      this.ruleForm = res.data
-      this.ruleForm.startDate=dateFormat(res.data.startDate)
-      this.ruleForm.finishDate=dateFormat(res.data.finishDate)
+    this.params.helpNum = this.$route.params.id
+ // alert(this.params.helpNum)
+    getRequest('/help/getHelpInfoDetail',this.params).then((res)=>{
+      console.log(res.data.data)
+      this.ruleForm = res.data.data[0]
+      // this.ruleForm.startDate=res.data.startDate
+      // this.ruleForm.finishDate=res.data.finishDate
     })
   },
   data() {
@@ -114,7 +120,6 @@ export default {
       file:[],
       token:'',
       ruleForm: {
-        peopleNumLeft:0,
         imageUrl: '',
         contact: '',
         email: '',
@@ -131,11 +136,15 @@ export default {
         startDate:'',
         finishDate:''
       },
+      params:{
+        token: "",
+        helpNum: ""
+      }
     };
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.ruleForm.imageUrl = res
+      this.ruleForm.imageUrl = res.data.data.imageUrl
       console.log(res)
       console.log(file)
     },

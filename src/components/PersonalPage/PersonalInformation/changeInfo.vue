@@ -35,7 +35,6 @@
       <el-input v-model="form.telephone" readonly placeholder="慎重!!!，误填非绑定手机号，可能导致密码无法找回"/>
       <el-button type="info" icon="Edit" circle @click="changeTelephone"/>
     </el-form-item>
-
     <el-form-item label="邮箱" prop="email">
       <el-input
           v-model="form.email"
@@ -63,13 +62,12 @@
       <el-button style="width: 500px;" type="primary"  @click="onSubmit">保存</el-button>
     </el-form-item>
   </el-form>
+    <router-view></router-view>
   </div>
-  <router-view></router-view>
-
 </template>
 
 <script>
-import { getRequest,postRequest} from '../../../Api_Axios/config.js'
+import { getRequest,postRequest} from '@/Api_Axios/config.js'
 import { reactive, ref } from 'vue'
 import router from "../../../router";
 import {ElMessage} from "element-plus";
@@ -94,7 +92,7 @@ export default {
         if (this.addressCheck(value)){
           callback()
         }else {
-          callback(new Error('正确地址格式:陕西省XXXXXXXX'))
+          callback(new Error('正确地址格式:陕西省XXX'))
         }
       }
     }
@@ -184,10 +182,10 @@ export default {
       })
     },
     changeTelephone(){
-     router.push('/cTelephone')
+      router.replace('/cTelephone')
     },
     changeEmail(){
-      router.push('/cEmail')
+      router.replace('/cEmail')
     },
     //校验地址
     addressCheck(pass) {
@@ -197,6 +195,7 @@ export default {
       }else {
         return false;
       }
+
     }
 
   },

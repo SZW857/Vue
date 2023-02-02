@@ -22,7 +22,7 @@
                   <div id="newsFooter">
                     <el-divider content-position="center">结尾</el-divider>
                     <el-row justify="center">【类型】:{{news.type}}</el-row>
-                    <el-row justify="center">【发布时间】:{{formatDate(news.createTime,'yyyy-MM-dd hh:mm:ss')}}</el-row>
+                    <el-row justify="center">【发布时间】:{{dateFormat(news.createTime,'yyyy-MM-dd hh:mm:ss')}}</el-row>
                  </div>
                 </el-collapse-item>
              </div>
@@ -37,7 +37,7 @@
 <script setup >
 
 import {computed, ref, onMounted, reactive} from 'vue'
-import formatDate from '@/static/js/DateFormart.js'
+import {dateFormat} from '@/static/js/dateFormat.js'
 import { getRequest} from "@/Api_Axios/config";
 
 const count = ref(50)
