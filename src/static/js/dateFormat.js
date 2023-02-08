@@ -2,7 +2,7 @@ import moment from "moment";
 
 function Int_Timestamp_To_Date() {
 
-    return moment(new Date().getTime()).format('YYYY-MM-DD HH:MM:ss');
+    return moment(new Date().getTime()).format('yyyy-MM-DD HH:mm:ss');
 
 }
 function String_Timestamp_To_Date(data){

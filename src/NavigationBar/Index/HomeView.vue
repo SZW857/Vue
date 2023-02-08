@@ -2,8 +2,9 @@
 <div>
   <el-backtop :bottom="60" :right="10" ><el-icon><Top/></el-icon></el-backtop>
  <CarouselChart/>
- <CommunityNews/>
+  <CommunityNews/>
  <CommunityAnnouncements/>
+
 </div>
 </template>
 

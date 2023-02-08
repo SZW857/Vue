@@ -34,7 +34,7 @@
           {url:require("@/static/picture/02.jpeg")},
           {url:require("@/static/picture/03.jpeg")},
           {url:require("@/static/picture/04.jpg")},
-          {url:require("@/static/picture/05.jpg")},
+          // {url:require("@/static/picture/05.jpg")},
         ]
       }
     }

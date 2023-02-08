@@ -34,9 +34,9 @@
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
         <el-menu-item index="/Volunteering" >志愿活动</el-menu-item>
         <el-menu-item index="/honorRoll" >荣誉榜</el-menu-item>
-        <el-menu-item index="/video">社区公益推广</el-menu-item>
+        <el-menu-item index="/introduce">社区公益推广</el-menu-item>
         <el-menu-item index="/news">社区告示</el-menu-item>
-        <el-menu-item index="/freeze">不动</el-menu-item>
+<!--        <el-menu-item index="/freeze">不动</el-menu-item>-->
         <el-menu-item index="/remark">留言</el-menu-item>
         <el-menu-item index="/PersonalPage">志愿者个人页</el-menu-item>
         <el-menu-item index="/AdminPage">后台管理入口</el-menu-item>
@@ -51,10 +51,10 @@
       <div id="el_footer_nav1">
         <h2>网站导航</h2>
         <router-link to="/">首页</router-link>|
-        <router-link to="/">公益产品最新消息</router-link>|
-        <router-link to="/">产品招募资源中心</router-link>|
-        <router-link to="/">关于我们</router-link>|
-        <router-link to="/">English</router-link>
+        <router-link to="/news">社区新闻</router-link>|
+        <router-link to="/honorRoll">荣誉榜</router-link>|
+        <router-link to="/introduce">关于我们</router-link>
+
       </div>
       <div id="el_footer_nav2">
         <h2>联系我们</h2>

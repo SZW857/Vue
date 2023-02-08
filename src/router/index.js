@@ -34,8 +34,8 @@ const router = createRouter({
       component: ()=> import(/* webpackChunkName: "forgetPwd" */ '@/components/AdminForgetPwd/ForgotPwdTemplateAdmin.vue')
     },
     {
-      path: "/video",
-      name: "video",
+      path: "/introduce",
+      name: "introduce",
       component: () => import(/* webpackChunkName: "about" */ '../NavigationBar/Advocacy/propaganda.vue')
     },
     {
@@ -165,6 +165,11 @@ const router = createRouter({
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/HonorRoll/HonorRoll.vue')
     },
     {
+      path: "/remark",
+      name: 'remark',
+      component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Remark/RemarkBoards.vue')
+    },
+    {
       path: "/loginOut",
       name: 'loginOut',
       component: ()=> import(/* webpackChunkName: "about" */ '@/NavigationBar/Login/LoginOut.vue')
@@ -199,7 +204,8 @@ router.beforeEach((to, from, next) => {
       to.path==="/freeze"||to.path==='/forgetPwd_p'||to.path==='/loginOut'||
       to.path==='/guide'||to.path==='/Volunteering'||to.path==='/news'||
       to.path==='/admin'||to.path==='/PublishNews'||to.path==='/RegisterVerify'||
-      to.path==='/honorRoll'||to.path.includes("/ProjectInformation")||
+      to.path==='/honorRoll'||to.path.includes("/ProjectInformation")||to.path==='/remark'||
+      to.path==='/introduce'||
       //管理员部分
       to.path==='/login_A'||to.path==='/forgetPwd_a'){
     return next()

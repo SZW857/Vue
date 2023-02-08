@@ -2,17 +2,29 @@
   <div class="container">
     <div class="new_title"></div>
     <div class="new_item">荣誉榜
-      <span class="getMore"><el-link href="/honorRoll">查看更多>>></el-link></span>
+      <el-row justify="end" class="getMore"><el-link href="/honorRoll">查看更多>>></el-link></el-row>
     </div>
     <div class="new-list">
-    <a href="/honorRoll"><el-image src="https://ts1.cn.mm.bing.net/th?id=OIP-C.O1CyeKs-ES3CZTfWbTjA2gHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.4&pid=3.1&rm=2"
-               /> </a>
+      <el-col :span="8">
+        <a href="/honorRoll"><img src="@/static/picture/NO1.png"/></a>
+        <div>{{this.NO1}}</div>
+      </el-col>
+      <el-col :span="8">
+        <a href="/honorRoll"><img src="@/static/picture/NO2.png"/> </a>
+        <div>{{this.NO2}}</div>
+      </el-col>
+      <el-col :span="8">
+        <a href="/honorRoll"><img src="@/static/picture/NO3.png"/> </a>
+        <div>{{this.NO3}}</div>
+      </el-col>
     </div>
   </div>
   <div class="container">
     <div class="new_item">注册人数</div>
+    <div style="background-color: #ffffff;margin-top: 90px;font-size: 45px;">当前已经有:<span style="color:#d92727;">{{ this.allUsersNum }}<el-icon><plus/></el-icon></span>人报名了</div>
   </div>
 </template>
+
 
 <style scoped>
 
@@ -54,15 +66,15 @@
   font-size: 15px;
   color: #545c64;
   position: relative;
-  margin-left: 1000px;
+
 
 }
 .el-image:hover {
   transform: scale(1.25);
 }
 .el-image{
-  width: 50%;
-  height: 50%;
+  width: 30%;
+  height: 30%;
   object-fit:cover;
   transition:all .5s;
 }
@@ -70,7 +82,35 @@
 
 
 <script>
+import {getRequest} from "@/Api_Axios/config";
+import {ElMessage} from "element-plus";
 export default {
-  name: "CommunityAnnouncements"
+  mounted() {
+    let _this = this
+    getRequest("/index/getAllUsers").then(function (res){
+      console.log(res.data)
+      if (res.data.length>0){
+        _this.allUsersNum = res.data.length
+      }
+    })
+    getRequest("/rankVolunteers").then((res)=>{
+      if (res.data!==null){
+        console.log(res.data);
+        this.NO1 = res.data[0].userId
+        this.NO2 = res.data[1].userId
+        this.NO3 = res.data[2].userId
+      }
+    })
+
+  },
+
+  data(){
+    return{
+      allUsersNum:null,
+      NO1:'',
+      NO2:'',
+      NO3:''
+    }
+  }
 }
 </script>
