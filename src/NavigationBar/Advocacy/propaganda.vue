@@ -22,7 +22,7 @@
     <p><span>是你，是我，也是每一个</span></p>
     <p><span>追梦前行的人</span></p>
 
-    <div style="text-align: left;"><span style="color: brown;font-size: 15px;font-family: 微软雅黑;font-weight: bold;letter-spacing: 1px;">小福和小灵的不同境遇，反映出当前公益组织在解决社会问题时面临的挑战</span>：处于发展初期的基层公益组织，由于经验和研发能力不足，面对巨大的社会需求无法拿出有效的解决方案；而部分经过实践检验的优质公益项目却因缺少相关能力和资源，无法进行有效的规模化推广。事实上，公益项目只有在更大范围内发挥成效，让更多人受益，才能大规模解决社会问题。</div><p/>
+    <div style="text-align: left;"><span style="color: brown;font-size: 15px;font-family: 微软雅黑;font-weight: bold;letter-spacing: 1px;">当前公益组织在解决社会问题时面临巨大挑战</span>：处于发展初期的基层公益组织，由于经验和研发能力不足，面对巨大的社会需求无法拿出有效的解决方案；而部分经过实践检验的优质公益项目却因缺少相关能力和资源，无法进行有效的规模化推广。事实上，公益项目只有在更大范围内发挥成效，让更多人受益，才能大规模解决社会问题。</div><p/>
     <div style="text-align: left">2016年11月，由南都公益基金会等多家机构联合共建的好公益平台正式启动。秉承开放共享的发展策略，平台将优质公益项目的研发方、渴求好项目的基层公益组织，政府、基金会和企业等资源方，有机连接起来,<span style="color: brown;font-size: 15px;font-family: 微软雅黑;font-weight: bold;letter-spacing: 1px">推动优质公益项目的产品化和推广复制，促进其规模化发展，以便更好地回应社会需求，高效和大规模地解决社会问题。</span></div><p/>
     <div style="text-align: left">目前，平台已遴选出覆盖教育、环保、助老、特殊人群帮扶、社区发展等领域的多个优质公益产品，为其规模化发展<span style="color: brown;font-size: 15px;font-family: 微软雅黑;font-weight: bold;letter-spacing: 1px">提供学习资金和个性化资助；开展相关培训和咨询服务；链接多种资源，组织路演，助力品牌推广和筹资；促进规模化经验借鉴和分享。</span></div><p/>
     <div style="text-align: left">“十方缘-老人心灵呵护”是一款为临终老人提供专业心灵呵护服务的公益产品。入选平台前，产品从覆盖1个城市到覆盖5个城市用了4年，入选后从5个城市到63个城市只用了两年。在平台的协助下，越来越多的公益产品正在取得规模化的实质性突破。<span style="color: brown;font-size: 15px;font-family: 微软雅黑;font-weight: bold;letter-spacing: 1px"></span></div><p/>

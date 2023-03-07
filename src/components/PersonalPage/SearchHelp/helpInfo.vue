@@ -21,7 +21,7 @@
         <div id="upload">
           <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:8083/user/measure"
+              action="http://192.168.43.60:8083/user/measure"
               :show-file-list="true"
               :auto-upload="false"
               name="avatar"
@@ -276,7 +276,7 @@ export default {
         let formData = new FormData();
         formData.append("avatar", _this.file.raw)
         formData.append("token",_this.token)
-        axios.post('http://127.0.0.1:8083/admin/uploadImage',formData).then((res)=>{
+        axios.post('http://192.168.43.60:8083/admin/uploadImage',formData).then((res)=>{
           if (res.data.code===200){
             ElMessage.success("上传成功")
             this.ruleForm.imageUrl=res.data.data

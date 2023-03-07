@@ -34,7 +34,12 @@
         <el-menu-item index="/" style="margin-left: 650px">首页</el-menu-item>
         <el-menu-item index="/Volunteering" >志愿活动</el-menu-item>
         <el-menu-item index="/honorRoll" >荣誉榜</el-menu-item>
-        <el-menu-item index="/introduce">社区公益推广</el-menu-item>
+        <el-sub-menu>
+          <template #title>社区公益推广</template>
+          <el-menu-item index="/introduce">公益短视频</el-menu-item>
+          <el-menu-item index="2-2">平台简介</el-menu-item>
+          <el-menu-item index="2-3">联系我们</el-menu-item>
+        </el-sub-menu>
         <el-menu-item index="/news">社区告示</el-menu-item>
 <!--        <el-menu-item index="/freeze">不动</el-menu-item>-->
         <el-menu-item index="/remark">留言</el-menu-item>

@@ -11,7 +11,7 @@
               <h4 style="margin-top: -10px" v-if="item.memberName!==null">
                 {{item.memberName}}&nbsp;:
                 <el-row justify="end">
-                  <el-link v-if="isMyself===item.memberName"  :underline="false" type="primary" @click="delRemark(item.memberName)">
+                  <el-link v-if="isMyself===item.memberName"  :underline="false" type="primary" @click="delRemark(item.remarkNum)">
                     删除</el-link>
                 </el-row>
               </h4>
@@ -226,6 +226,7 @@ export default {
       let token = this.ruleForm.token
       let remarkNum = Names
       postRequest("/remark/delParentComments",{token:token,remarkNum:remarkNum}).then(function (res){
+
         if (res.data.status==='success'){
           //删除父子评论
           // console.log(res.data)
